@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  # Databases
+  postgres-users:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: users_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_users_data:/var/lib/postgresql/data
+    networks:
+      - job-platform-network
+
+  postgres-jobs:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: jobs_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_jobs_data:/var/lib/postgresql/data
+    networks:
+      - job-platform-network
+
+  postgres-applications:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: applications_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_applications_data:/var/lib/postgresql/data
+    networks:
+      - job-platform-network
+
+  # Redis for caching and sessions
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - job-platform-network
+
+  # API Gateway (nginx for now, can be replaced later)
+  api-gateway:
+    build: ./infrastructure/docker/api-gateway
+    ports:
+      - "8000:80"
+    depends_on:
+      - user-service
+      - job-service
+      - application-service
+    networks:
+      - job-platform-network
+
+  # Microservices
+  user-service:
+    build: ./backend/user-service
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres123@postgres-users:5432/users_db
+      - REDIS_URL=redis://redis:6379/0
+      - JWT_SECRET=your-jwt-secret-key-here
+    depends_on:
+      - postgres-users
+      - redis
+    networks:
+      - job-platform-network
+
+  job-service:
+    build: ./backend/job-service
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres123@postgres-jobs:5432/jobs_db
+      - USER_SERVICE_URL=http://user-service:8000
+    depends_on:
+      - postgres-jobs
+      - user-service
+    networks:
+      - job-platform-network
+
+  application-service:
+    build: ./backend/application-service
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres123@postgres-applications:5432/applications_db
+      - USER_SERVICE_URL=http://user-service:8000
+      - JOB_SERVICE_URL=http://job-service:8000
+    depends_on:
+      - postgres-applications
+      - user-service
+      - job-service
+    networks:
+      - job-platform-network
+
+volumes:
+  postgres_users_data:
+  postgres_jobs_data:
+  postgres_applications_data:
+
+networks:
+  job-platform-network:
+    driver: bridge

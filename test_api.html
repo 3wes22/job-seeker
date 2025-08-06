@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #007bff;
+            margin-top: 30px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        #result {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .token-info {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Service API Test</h1>
+    
+    <div class="info">
+        <strong>Server:</strong> http://localhost:8001<br>
+        <strong>Status:</strong> <span id="server-status">Checking...</span>
+    </div>
+    
+    <div class="token-info" id="token-info" style="display: none;">
+        <strong>Access Token:</strong> <span id="token-display"></span>
+    </div>
+    
+    <h2>Authentication</h2>
+    <div style="margin-bottom: 15px;">
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter email" style="margin: 0 10px; padding: 5px; width: 200px;">
+        <br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Enter password" style="margin: 0 10px; padding: 5px; width: 200px;">
+        <br><br>
+        <label for="username">Username (for registration):</label>
+        <input type="text" id="username" placeholder="Enter username" style="margin: 0 10px; padding: 5px; width: 200px;">
+        <br><br>
+        <label for="user_type">User Type (for registration):</label>
+        <select id="user_type" style="margin: 0 10px; padding: 5px; width: 200px;">
+            <option value="job_seeker">Job Seeker</option>
+            <option value="employer">Employer</option>
+            <option value="admin">Admin</option>
+        </select>
+    </div>
+    <button onclick="registerUser()">Register User</button>
+    <button onclick="loginUser()">Login</button>
+    <button onclick="logoutUser()">Logout</button>
+    <button onclick="clearFields()" style="background-color: #6c757d;">Clear Fields</button>
+    <button onclick="fillTestData()" style="background-color: #28a745;">Fill Test Data</button>
+    
+    <h2>User Profile</h2>
+    <button onclick="getProfile()" id="profile-btn" disabled>Get Profile</button>
+    <button onclick="updateProfile()" id="update-btn" disabled>Update Profile</button>
+    
+    <h2>User Management</h2>
+    <button onclick="listUsers()" id="list-btn" disabled>List Users</button>
+    
+    <h2>Server Status</h2>
+    <button onclick="checkServer()">Check Server</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        let accessToken = '';
+        let refreshToken = '';
+        
+        // Check server status on page load
+        window.onload = function() {
+            checkServer();
+            fillTestData(); // Pre-fill with test data for convenience
+        };
+        
+        function clearFields() {
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('username').value = '';
+            document.getElementById('user_type').value = 'job_seeker';
+        }
+        
+        function fillTestData() {
+            document.getElementById('email').value = 'test@example.com';
+            document.getElementById('password').value = 'testpass123';
+            document.getElementById('username').value = 'testuser';
+            document.getElementById('user_type').value = 'job_seeker';
+        }
+        
+        function updateTokenInfo() {
+            const tokenInfo = document.getElementById('token-info');
+            const tokenDisplay = document.getElementById('token-display');
+            
+            if (accessToken) {
+                tokenInfo.style.display = 'block';
+                tokenDisplay.textContent = accessToken.substring(0, 50) + '...';
+                
+                // Enable buttons that require authentication
+                document.getElementById('profile-btn').disabled = false;
+                document.getElementById('update-btn').disabled = false;
+                document.getElementById('list-btn').disabled = false;
+            } else {
+                tokenInfo.style.display = 'none';
+                
+                // Disable buttons that require authentication
+                document.getElementById('profile-btn').disabled = true;
+                document.getElementById('update-btn').disabled = true;
+                document.getElementById('list-btn').disabled = true;
+            }
+        }
+        
+        function showResult(data, isError = false) {
+            const resultDiv = document.getElementById('result');
+            const statusDiv = document.createElement('div');
+            statusDiv.className = isError ? 'error' : 'success';
+            statusDiv.textContent = isError ? 'Error' : 'Success';
+            
+            resultDiv.innerHTML = '';
+            resultDiv.appendChild(statusDiv);
+            resultDiv.appendChild(document.createTextNode(JSON.stringify(data, null, 2)));
+        }
+        
+        async function checkServer() {
+            try {
+                const response = await fetch('http://localhost:8001/admin/', {
+                    method: 'HEAD'
+                });
+                document.getElementById('server-status').textContent = 'Online';
+                document.getElementById('server-status').style.color = 'green';
+            } catch (error) {
+                document.getElementById('server-status').textContent = 'Offline';
+                document.getElementById('server-status').style.color = 'red';
+                showResult({ error: 'Server is not running. Please start the Django server.' }, true);
+            }
+        }
+        
+        async function registerUser() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const username = document.getElementById('username').value;
+            const userType = document.getElementById('user_type').value;
+            
+            if (!email || !password || !username) {
+                showResult({ error: 'Please fill in all required fields (email, password, username)' }, true);
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:8001/api/users/register/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        username: username,
+                        user_type: userType,
+                        password: password,
+                        password_confirm: password
+                    })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    accessToken = data.tokens.access;
+                    refreshToken = data.tokens.refresh;
+                    updateTokenInfo();
+                    showResult(data);
+                } else {
+                    showResult(data, true);
+                }
+            } catch (error) {
+                showResult({ error: error.message }, true);
+            }
+        }
+        
+        async function loginUser() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                showResult({ error: 'Please enter email and password' }, true);
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:8001/api/users/login/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    accessToken = data.tokens.access;
+                    refreshToken = data.tokens.refresh;
+                    updateTokenInfo();
+                    showResult(data);
+                } else {
+                    showResult(data, true);
+                }
+            } catch (error) {
+                showResult({ error: error.message }, true);
+            }
+        }
+        
+        async function logoutUser() {
+            try {
+                const response = await fetch('http://localhost:8001/api/users/logout/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        refresh: refreshToken
+                    })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    accessToken = '';
+                    refreshToken = '';
+                    updateTokenInfo();
+                    showResult(data);
+                } else {
+                    showResult(data, true);
+                }
+            } catch (error) {
+                showResult({ error: error.message }, true);
+            }
+        }
+        
+        async function getProfile() {
+            try {
+                const response = await fetch('http://localhost:8001/api/users/profile/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(data);
+                } else {
+                    showResult(data, true);
+                }
+            } catch (error) {
+                showResult({ error: error.message }, true);
+            }
+        }
+        
+        async function updateProfile() {
+            try {
+                const response = await fetch('http://localhost:8001/api/users/profile/update/', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    body: JSON.stringify({
+                        bio: 'Updated bio from test interface - ' + new Date().toISOString()
+                    })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(data);
+                } else {
+                    showResult(data, true);
+                }
+            } catch (error) {
+                showResult({ error: error.message }, true);
+            }
+        }
+        
+        async function listUsers() {
+            try {
+                const response = await fetch('http://localhost:8001/api/users/list/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(data);
+                } else {
+                    showResult(data, true);
+                }
+            } catch (error) {
+                showResult({ error: error.message }, true);
+            }
+        }
+    </script>
+</body>
+</html> 
