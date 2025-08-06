@@ -1,0 +1,91 @@
+name: job_seeker_app
+description: A modern job platform mobile application built with Flutter
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  flutter_riverpod: ^2.4.9
+  riverpod_annotation: ^2.3.3
+  
+  # HTTP Client
+  dio: ^5.4.0
+  pretty_dio_logger: ^1.3.1
+  
+  # Authentication & Security
+  flutter_secure_storage: ^9.0.0
+  local_auth: ^2.1.7
+  
+  # UI Components
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.0
+  image_picker: ^1.0.4
+  file_picker: ^6.1.1
+  
+  # Navigation
+  go_router: ^12.1.3
+  
+  # Forms & Validation
+  flutter_hook_form: ^0.0.1
+  
+  # Notifications
+  flutter_local_notifications: ^16.3.0
+  
+  # Utils
+  intl: ^0.18.1
+  url_launcher: ^6.2.2
+  share_plus: ^7.2.1
+  permission_handler: ^11.1.0
+  
+  # Charts & Analytics
+  fl_chart: ^0.66.0
+  
+  # Connectivity
+  connectivity_plus: ^5.0.2
+  
+  # Storage
+  shared_preferences: ^2.2.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+  # Code Generation
+  build_runner: ^2.4.7
+  riverpod_generator: ^2.3.9
+  hive_generator: ^2.0.1
+  
+  # Linting
+  flutter_lints: ^3.0.1
+  custom_lint: ^0.5.11
+  riverpod_lint: ^2.3.7
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
+  
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700 
