@@ -41,6 +41,45 @@ services:
     networks:
       - job-platform-network
 
+  postgres-search:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: search_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_search_data:/var/lib/postgresql/data
+    networks:
+      - job-platform-network
+
+  postgres-notifications:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: notifications_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_notifications_data:/var/lib/postgresql/data
+    networks:
+      - job-platform-network
+
+  postgres-analytics:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: analytics_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5437:5432"
+    volumes:
+      - postgres_analytics_data:/var/lib/postgresql/data
+    networks:
+      - job-platform-network
+
   # Redis for caching and sessions
   redis:
     image: redis:7-alpine
@@ -58,6 +97,9 @@ services:
       - user-service
       - job-service
       - application-service
+      - search-service
+      - notification-service
+      - analytics-service
     networks:
       - job-platform-network
 
@@ -98,10 +140,62 @@ services:
     networks:
       - job-platform-network
 
+  search-service:
+    build: ./backend/search-service
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres123@postgres-search:5432/search_db
+      - USER_SERVICE_URL=http://user-service:8000
+      - JOB_SERVICE_URL=http://job-service:8000
+      - APPLICATION_SERVICE_URL=http://application-service:8000
+    depends_on:
+      - postgres-search
+      - user-service
+      - job-service
+      - application-service
+    networks:
+      - job-platform-network
+
+  notification-service:
+    build: ./backend/notification-service
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres123@postgres-notifications:5432/notifications_db
+      - USER_SERVICE_URL=http://user-service:8000
+      - JOB_SERVICE_URL=http://job-service:8000
+      - APPLICATION_SERVICE_URL=http://application-service:8000
+    depends_on:
+      - postgres-notifications
+      - user-service
+      - job-service
+      - application-service
+    networks:
+      - job-platform-network
+
+  analytics-service:
+    build: ./backend/analytics-service
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres123@postgres-analytics:5432/analytics_db
+      - USER_SERVICE_URL=http://user-service:8000
+      - JOB_SERVICE_URL=http://job-service:8000
+      - APPLICATION_SERVICE_URL=http://application-service:8000
+      - SEARCH_SERVICE_URL=http://search-service:8000
+      - NOTIFICATION_SERVICE_URL=http://notification-service:8000
+    depends_on:
+      - postgres-analytics
+      - user-service
+      - job-service
+      - application-service
+      - search-service
+      - notification-service
+    networks:
+      - job-platform-network
+
 volumes:
   postgres_users_data:
   postgres_jobs_data:
   postgres_applications_data:
+  postgres_search_data:
+  postgres_notifications_data:
+  postgres_analytics_data:
 
 networks:
   job-platform-network:
