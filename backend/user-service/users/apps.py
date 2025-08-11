@@ -1,12 +1,13 @@
 from django.apps import AppConfig
-from django.utils.translation import gettext_lazy as _
+import logging
 
+logger = logging.getLogger(__name__)
 
 class UsersConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'users'
-    verbose_name = _('Users')
-    
+
     def ready(self):
-        """Import signals when the app is ready."""
-        import users.signals
+        import users.signals  # Import signals
+        # Kafka consumers should run in a dedicated process (e.g., management command)
+        # to avoid duplicate consumers and lifecycle issues.

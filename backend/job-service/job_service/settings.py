@@ -138,4 +138,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Microservice Configuration
 USER_SERVICE_URL = config('USER_SERVICE_URL', default='http://localhost:8001')
-APPLICATION_SERVICE_URL = config('APPLICATION_SERVICE_URL', default='http://localhost:8003') 
+APPLICATION_SERVICE_URL = config('APPLICATION_SERVICE_URL', default='http://localhost:8003')
+
+# Kafka Configuration
+KAFKA_BOOTSTRAP_SERVERS = config('KAFKA_BOOTSTRAP_SERVERS', default='kafka:29092').split(',')
+KAFKA_GROUP_ID = config('KAFKA_GROUP_ID', default='job-service-group')
+KAFKA_TOPICS = {
+    'JOB_EVENTS': config('KAFKA_TOPIC_JOB_EVENTS', default='job-events'),
+    'USER_EVENTS': config('KAFKA_TOPIC_USER_EVENTS', default='user-events'),
+} 
