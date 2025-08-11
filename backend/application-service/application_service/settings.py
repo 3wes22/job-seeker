@@ -1,9 +1,15 @@
 import os
+import sys
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Add shared directory to Python path
+shared_path = BASE_DIR.parent / 'shared'
+if str(shared_path) not in sys.path:
+    sys.path.insert(0, str(shared_path))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-local-dev-key-change-in-production')
@@ -138,4 +144,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Microservice Configuration
 USER_SERVICE_URL = config('USER_SERVICE_URL', default='http://localhost:8001')
-JOB_SERVICE_URL = config('JOB_SERVICE_URL', default='http://localhost:8002') 
+JOB_SERVICE_URL = config('JOB_SERVICE_URL', default='http://localhost:8002')
+
+# Kafka Configuration
+KAFKA_BOOTSTRAP_SERVERS = config('KAFKA_BOOTSTRAP_SERVERS', default='localhost:9092').split(',')
+KAFKA_GROUP_ID = config('KAFKA_GROUP_ID', default='application-service-group')
+
+# Topics
+KAFKA_TOPICS = {
+    'USER_EVENTS': 'user-events',
+    'JOB_EVENTS': 'job-events',
+    'APPLICATION_EVENTS': 'application-events'
+} 

@@ -1,10 +1,16 @@
 import os
+import sys
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Add shared directory to Python path
+shared_path = BASE_DIR.parent / 'shared'
+if str(shared_path) not in sys.path:
+    sys.path.insert(0, str(shared_path))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-local-dev-key-change-in-production')

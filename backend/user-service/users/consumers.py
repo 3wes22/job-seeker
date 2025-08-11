@@ -11,7 +11,7 @@ class UserEventConsumer:
     def __init__(self):
         self.topics = [settings.KAFKA_TOPICS['JOB_EVENTS']]
         self.group_id = settings.KAFKA_GROUP_ID
-        self.consumer = get_event_consumer(self.topics, self.group_id)
+        self.consumer = get_event_consumer(self.topics, self.group_id, settings.KAFKA_BOOTSTRAP_SERVERS)
         
         # Register event handlers
         self.consumer.register_handler('job_created', self.handle_job_created)

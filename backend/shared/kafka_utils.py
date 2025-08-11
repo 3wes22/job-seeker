@@ -3,19 +3,22 @@ import logging
 from typing import Dict, Any, Callable, Optional
 from kafka import KafkaProducer, KafkaConsumer
 from kafka.errors import KafkaError
-from django.conf import settings
-from django.utils import timezone
 import threading
 import uuid
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
 class KafkaEventPublisher:
     """Kafka event publisher for microservices"""
     
-    def __init__(self):
+    def __init__(self, bootstrap_servers=None):
+        if bootstrap_servers is None:
+            # Default fallback
+            bootstrap_servers = ['localhost:9092']
+            
         self.producer = KafkaProducer(
-            bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS,
+            bootstrap_servers=bootstrap_servers,
             value_serializer=lambda v: json.dumps(v).encode('utf-8'),
             key_serializer=lambda v: str(v).encode('utf-8') if v else None,
             acks='all',  # Wait for all replicas
@@ -40,7 +43,7 @@ class KafkaEventPublisher:
             'event_id': str(uuid.uuid4()),
             'event_type': event_type,
             'service_name': service_name or 'unknown',
-            'timestamp': timezone.now().isoformat(),
+            'timestamp': datetime.now().isoformat(),
             'version': '1.0',
             'data': data
         }
@@ -67,12 +70,16 @@ class KafkaEventPublisher:
 class KafkaEventConsumer:
     """Kafka event consumer for microservices"""
     
-    def __init__(self, topics: list, group_id: str):
+    def __init__(self, topics: list, group_id: str, bootstrap_servers=None):
+        if bootstrap_servers is None:
+            # Default fallback
+            bootstrap_servers = ['localhost:9092']
+            
         self.topics = topics
         self.group_id = group_id
         self.consumer = KafkaConsumer(
             *topics,
-            bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS,
+            bootstrap_servers=bootstrap_servers,
             group_id=group_id,
             value_deserializer=lambda m: json.loads(m.decode('utf-8')),
             key_deserializer=lambda m: m.decode('utf-8') if m else None,
@@ -160,13 +167,13 @@ class KafkaEventConsumer:
 event_publisher = None
 event_consumer = None
 
-def get_event_publisher() -> KafkaEventPublisher:
+def get_event_publisher(bootstrap_servers=None) -> KafkaEventPublisher:
     """Get global event publisher instance"""
     global event_publisher
     if event_publisher is None:
-        event_publisher = KafkaEventPublisher()
+        event_publisher = KafkaEventPublisher(bootstrap_servers)
     return event_publisher
 
-def get_event_consumer(topics: list, group_id: str) -> KafkaEventConsumer:
+def get_event_consumer(topics: list, group_id: str, bootstrap_servers=None) -> KafkaEventConsumer:
     """Get event consumer instance"""
-    return KafkaEventConsumer(topics, group_id)
+    return KafkaEventConsumer(topics, group_id, bootstrap_servers)

@@ -10,4 +10,3 @@ celery==5.3.4
 redis==5.0.1
 Pillow==11.3.0
 kafka-python==2.0.2
-dataclasses-json==0.6.1

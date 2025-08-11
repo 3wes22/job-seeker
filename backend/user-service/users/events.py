@@ -11,7 +11,7 @@ class UserEventPublisher:
     """Publisher for user-related events"""
     
     def __init__(self):
-        self.publisher = get_event_publisher()
+        self.publisher = get_event_publisher(settings.KAFKA_BOOTSTRAP_SERVERS)
         self.topic = settings.KAFKA_TOPICS['USER_EVENTS']
         self.service_name = 'user-service'
     

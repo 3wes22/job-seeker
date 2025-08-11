@@ -11,7 +11,7 @@ class JobEventPublisher:
     """Publisher for job-related events"""
     
     def __init__(self):
-        self.publisher = get_event_publisher()
+        self.publisher = get_event_publisher(settings.KAFKA_BOOTSTRAP_SERVERS)
         self.topic = settings.KAFKA_TOPICS['JOB_EVENTS']
         self.service_name = 'job-service'
     
@@ -24,7 +24,7 @@ class JobEventPublisher:
                 service_name=self.service_name,
                 job_id=job.id,
                 title=job.title,
-                company_id=job.company_id,
+                company_id=job.company.id,
                 employer_id=job.employer_id,
                 job_type=job.job_type,
                 location=job.location or '',
@@ -55,7 +55,7 @@ class JobEventPublisher:
                 service_name=self.service_name,
                 job_id=job.id,
                 title=job.title,
-                company_id=job.company_id,
+                company_id=job.company.id,
                 employer_id=job.employer_id,
                 changes=changes or {}
             )

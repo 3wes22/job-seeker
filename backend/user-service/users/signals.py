@@ -2,13 +2,17 @@ import logging
 from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
-from .events import user_event_publisher
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
 
 # Track changes for update events
 user_original_data = {}
+
+def get_user_event_publisher():
+    """Lazy import to avoid circular import issues"""
+    from .events import user_event_publisher
+    return user_event_publisher
 
 @receiver(pre_save, sender=User)
 def capture_user_changes(sender, instance, **kwargs):
@@ -30,6 +34,7 @@ def capture_user_changes(sender, instance, **kwargs):
 def user_saved_handler(sender, instance, created, **kwargs):
     """Handle user creation and updates"""
     try:
+        user_event_publisher = get_user_event_publisher()
         if created:
             logger.info(f"User created: {instance.username} (ID: {instance.id})")
             user_event_publisher.publish_user_created(instance)
@@ -59,6 +64,7 @@ def user_saved_handler(sender, instance, created, **kwargs):
 def user_deleted_handler(sender, instance, **kwargs):
     """Handle user deletion"""
     try:
+        user_event_publisher = get_user_event_publisher()
         logger.info(f"User deleted: {instance.username} (ID: {instance.id})")
         user_event_publisher.publish_user_deleted(instance.id, instance.username)
     except Exception as e:
