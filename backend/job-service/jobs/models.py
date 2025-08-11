@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 
 class Company(models.Model):
@@ -186,4 +187,56 @@ class JobSkillJob(models.Model):
         unique_together = ('job', 'skill')
     
     def __str__(self):
-        return f"{self.job.title} - {self.skill.name}" 
+        return f"{self.job.title} - {self.skill.name}"
+
+
+class UserProfileCache(models.Model):
+    """
+    Cache user data from User Service to avoid frequent API calls
+    This maintains referential integrity while preserving service isolation
+    """
+    user_id = models.BigIntegerField(unique=True, db_index=True)
+    username = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
+    full_name = models.CharField(max_length=300, blank=True)
+    user_type = models.CharField(max_length=20)
+    is_active = models.BooleanField(default=True)
+    
+    # Metadata
+    last_synced = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        db_table = 'user_profile_cache'
+        indexes = [
+            models.Index(fields=['user_type', 'is_active']),
+            models.Index(fields=['last_synced']),
+        ]
+    
+    def __str__(self):
+        return f"{self.username} (ID: {self.user_id})"
+    
+    @property
+    def is_stale(self, max_age_hours=24):
+        """Check if cached data is stale"""
+        from datetime import timedelta
+        max_age = timezone.now() - timedelta(hours=max_age_hours)
+        return self.last_synced < max_age
+
+# Extend Job with helpers without altering existing fields
+def _job_get_employer_info(self):
+    try:
+        return UserProfileCache.objects.get(user_id=self.employer_id)
+    except UserProfileCache.DoesNotExist:
+        return None
+
+@property
+def _job_employer_name(self):
+    employer = self.get_employer_info()
+    return employer.full_name if employer else f"User {self.employer_id}"
+
+# Bind helper methods to Job
+Job.get_employer_info = _job_get_employer_info
+Job.employer_name = _job_employer_name 
