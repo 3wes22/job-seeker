@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.job_seeker_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "25.1.8937393" // Use a stable NDK version
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

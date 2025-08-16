@@ -12,8 +12,8 @@ dependencies:
     sdk: flutter
   
   # State Management
-  flutter_riverpod: ^2.4.9
-  riverpod_annotation: ^2.3.3
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
   
   # HTTP Client
   dio: ^5.4.0
@@ -25,20 +25,19 @@ dependencies:
   
   # UI Components
   cupertino_icons: ^1.0.6
-  google_fonts: ^6.1.0
+  # google_fonts: ^6.1.0
   flutter_svg: ^2.0.9
   cached_network_image: ^3.3.0
   image_picker: ^1.0.4
-  file_picker: ^6.1.1
   
   # Navigation
-  go_router: ^12.1.3
+  go_router: ^14.2.7
   
   # Forms & Validation
-  flutter_hook_form: ^0.0.1
+# flutter_hook_form: ^0.0.1  # Temporarily disabled due to compilation issues
   
   # Notifications
-  flutter_local_notifications: ^16.3.0
+  # flutter_local_notifications: ^15.1.3  # Temporarily disabled due to Android compatibility issues
   
   # Utils
   intl: ^0.18.1
@@ -62,14 +61,14 @@ dev_dependencies:
     sdk: flutter
   
   # Code Generation
-  build_runner: ^2.4.7
-  riverpod_generator: ^2.3.9
+  build_runner: ^2.4.12
+  riverpod_generator: ^2.4.3
   hive_generator: ^2.0.1
   
   # Linting
-  flutter_lints: ^3.0.1
-  custom_lint: ^0.5.11
-  riverpod_lint: ^2.3.7
+  flutter_lints: ^4.0.0
+  # custom_lint: ^0.5.11  # Temporarily disabled due to compatibility issues
+  # riverpod_lint: ^2.3.7  # Temporarily disabled due to compatibility issues
 
 flutter:
   uses-material-design: true
@@ -79,13 +78,13 @@ flutter:
     - assets/icons/
     - assets/animations/
   
-  fonts:
-    - family: Inter
-      fonts:
-        - asset: assets/fonts/Inter-Regular.ttf
-        - asset: assets/fonts/Inter-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Inter-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Inter-Bold.ttf
-          weight: 700 
+  # fonts:
+  #   - family: Inter
+  #     fonts:
+  #       - asset: assets/fonts/Inter-Regular.ttf
+  #       - asset: assets/fonts/Inter-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/Inter-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/Inter-Bold.ttf
+  #         weight: 700 

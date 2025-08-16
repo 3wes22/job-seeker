@@ -19,18 +19,18 @@ Below is a comprehensive, structured guide to the entire repository to help you 
 
 - Purpose: Multi-tenant job platform, decomposed into microservices for users, jobs, applications, search, notifications, and analytics. Each service has its own PostgreSQL database and Django app with DRF APIs, containerized via Docker Compose and fronted by an Nginx API gateway.
 
-- High-level architecture:
+- **High-level architecture**:
   - API Gateway (Nginx) routes requests to Django services
   - Database-per-service (PostgreSQL)
   - Authentication with JWT (DRF + Simple JWT)
   - Redis for caching/broker (future: Celery)
   - Event-driven patterns and eventual consistency (laid out in docs; lightweight signals in code as placeholders)
 
-Architecture diagram:
+**Architecture diagram**:
 - Microservices and data stores (rendered above).
 - Request flow sequence (rendered above).
 
-- Module interaction:
+- **Module interaction**:
   - API Gateway proxies all client requests to service endpoints
   - Services use `ServiceRegistry` to discover base URLs via env
   - Cross-service references are via ID fields (BigInteger) and HTTP calls (planned)
@@ -113,7 +113,7 @@ Notes:
 - backend/user-service/users/signals.py
   - Placeholders for post_save hooks (profile creation, updates) [link](/backend/user-service/users/signals.py#L8)
 
-### Job Service
+### **Job Service**
 
 - backend/job-service/job_service/settings.py
   - PostgreSQL DB (jobs_db) via decouple, DRF+JWT, CORS, `jobs` app.
@@ -154,7 +154,7 @@ Notes:
 - backend/job-service/jobs/tests.py
   - Basic model tests [link](/backend/job-service/jobs/tests.py#L8)
 
-### Application Service
+### **Application Service**
 
 - backend/application-service/application_service/settings.py
   - PostgreSQL DB (applications_db), DRF+JWT, `applications` app.
@@ -184,7 +184,7 @@ Notes:
 - backend/application-service/applications/signals.py
   - Status history captured on create and update [link](/backend/application-service/applications/signals.py#L6)
 
-### Search Service
+### **Search Service**
 
 - backend/search-service/search_service/settings.py
   - PostgreSQL DB (search_db), DRF+JWT, `search` app.
@@ -210,7 +210,7 @@ Notes:
 - backend/search-service/search/signals.py
   - Placeholders for vector maintenance [link](/backend/search-service/search/signals.py#L6)
 
-### Notification Service
+### **Notification Service**
 
 - backend/notification-service/notification_service/settings.py
   - PostgreSQL DB (notifications_db), DRF+JWT, `notifications` app.
@@ -234,7 +234,7 @@ Notes:
 - backend/notification-service/notifications/signals.py
   - On create, transitions `pending` → `sent` via update (avoids infinite loop) [link](/backend/notification-service/notifications/signals.py#L6)
 
-### Analytics Service
+### **Analytics Service**
 
 - backend/analytics-service/analytics_service/settings.py
   - PostgreSQL DB (analytics_db), DRF+JWT, `analytics` app.
@@ -259,7 +259,7 @@ Notes:
 - backend/analytics-service/analytics/signals.py
   - Placeholder for event processing [link](/backend/analytics-service/analytics/signals.py#L6)
 
-### API Gateway
+### **API Gateway**
 
 - infrastructure/docker/api-gateway/Dockerfile: Nginx image build.
 
@@ -267,19 +267,19 @@ Notes:
   - Reverse-proxy routes to each service upstream (by Docker service name/port).
   - Central point for CORS, rate limits, TLS (future).
 
-### Infrastructure
+### **Infrastructure**
 
 - infrastructure/kubernetes/.gitkeep: Placeholder for future manifests.
 - infrastructure/scripts/setup.sh: Setup helper (if any steps added later).
 
-### Frontend (stubs)
+### **Frontend (stubs)**
 
 - frontend/README.md, frontend/flutter-app/README.md: Frontend placeholders.
 - frontend/flutter-app/pubspec.yaml: Flutter dependencies metadata.
 - frontend/shared/constants/api.ts: API endpoints constants.
 - frontend/shared/types/api.ts: Shared TypeScript types.
 
-### Docs
+### **Docs**
 
 - docs/database-design.md: Detailed per-service DDL and design principles.
 - docs/database-migration-strategy.md: Phased roadmap for migrating from monolith to microservices.

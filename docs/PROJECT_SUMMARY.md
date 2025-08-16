@@ -46,7 +46,7 @@ The project follows a microservices architecture with a shared Kafka message bro
 [Client Applications]
       |
       V
-[API Gateway] (Planned)
+[API Gateway] (Planned) //Not implemented Yet\\
       |
       +---------------------------------------------------------------------------------+
       |                                                                                 |
