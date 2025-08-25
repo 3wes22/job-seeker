@@ -1,0 +1,2002 @@
+[
+  {
+    "job_id": 76,
+    "applicant_id": 27,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 137461
+    }
+  },
+  {
+    "job_id": 10,
+    "applicant_id": 16,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 63208
+    }
+  },
+  {
+    "job_id": 78,
+    "applicant_id": 37,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 70426
+    }
+  },
+  {
+    "job_id": 18,
+    "applicant_id": 27,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 142313
+    }
+  },
+  {
+    "job_id": 3,
+    "applicant_id": 41,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 70593
+    }
+  },
+  {
+    "job_id": 23,
+    "applicant_id": 20,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 141835
+    }
+  },
+  {
+    "job_id": 15,
+    "applicant_id": 33,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 132528
+    }
+  },
+  {
+    "job_id": 53,
+    "applicant_id": 27,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 131065
+    }
+  },
+  {
+    "job_id": 88,
+    "applicant_id": 21,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 105297
+    }
+  },
+  {
+    "job_id": 96,
+    "applicant_id": 48,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 111397
+    }
+  },
+  {
+    "job_id": 25,
+    "applicant_id": 48,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 98407
+    }
+  },
+  {
+    "job_id": 47,
+    "applicant_id": 33,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 99888
+    }
+  },
+  {
+    "job_id": 96,
+    "applicant_id": 47,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 143936
+    }
+  },
+  {
+    "job_id": 51,
+    "applicant_id": 25,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 84233
+    }
+  },
+  {
+    "job_id": 38,
+    "applicant_id": 32,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 93099
+    }
+  },
+  {
+    "job_id": 55,
+    "applicant_id": 33,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 68240
+    }
+  },
+  {
+    "job_id": 7,
+    "applicant_id": 19,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 115718
+    }
+  },
+  {
+    "job_id": 16,
+    "applicant_id": 22,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 108676
+    }
+  },
+  {
+    "job_id": 83,
+    "applicant_id": 33,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 77118
+    }
+  },
+  {
+    "job_id": 72,
+    "applicant_id": 45,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 104969
+    }
+  },
+  {
+    "job_id": 92,
+    "applicant_id": 16,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 83778
+    }
+  },
+  {
+    "job_id": 21,
+    "applicant_id": 36,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 64505
+    }
+  },
+  {
+    "job_id": 84,
+    "applicant_id": 44,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 81722
+    }
+  },
+  {
+    "job_id": 23,
+    "applicant_id": 21,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 87498
+    }
+  },
+  {
+    "job_id": 11,
+    "applicant_id": 21,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 74485
+    }
+  },
+  {
+    "job_id": 32,
+    "applicant_id": 50,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 113597
+    }
+  },
+  {
+    "job_id": 38,
+    "applicant_id": 22,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 145693
+    }
+  },
+  {
+    "job_id": 16,
+    "applicant_id": 22,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 72417
+    }
+  },
+  {
+    "job_id": 72,
+    "applicant_id": 37,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 83206
+    }
+  },
+  {
+    "job_id": 82,
+    "applicant_id": 19,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 122723
+    }
+  },
+  {
+    "job_id": 83,
+    "applicant_id": 43,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 102705
+    }
+  },
+  {
+    "job_id": 64,
+    "applicant_id": 24,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 117299
+    }
+  },
+  {
+    "job_id": 78,
+    "applicant_id": 42,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 132618
+    }
+  },
+  {
+    "job_id": 23,
+    "applicant_id": 17,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 134558
+    }
+  },
+  {
+    "job_id": 74,
+    "applicant_id": 24,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 147879
+    }
+  },
+  {
+    "job_id": 79,
+    "applicant_id": 26,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 139003
+    }
+  },
+  {
+    "job_id": 16,
+    "applicant_id": 29,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 130268
+    }
+  },
+  {
+    "job_id": 67,
+    "applicant_id": 45,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 130372
+    }
+  },
+  {
+    "job_id": 56,
+    "applicant_id": 45,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 92307
+    }
+  },
+  {
+    "job_id": 99,
+    "applicant_id": 48,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 98090
+    }
+  },
+  {
+    "job_id": 94,
+    "applicant_id": 40,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 140136
+    }
+  },
+  {
+    "job_id": 43,
+    "applicant_id": 27,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 123509
+    }
+  },
+  {
+    "job_id": 91,
+    "applicant_id": 22,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 110146
+    }
+  },
+  {
+    "job_id": 84,
+    "applicant_id": 22,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 96928
+    }
+  },
+  {
+    "job_id": 29,
+    "applicant_id": 35,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 105035
+    }
+  },
+  {
+    "job_id": 43,
+    "applicant_id": 29,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 74818
+    }
+  },
+  {
+    "job_id": 59,
+    "applicant_id": 28,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 74637
+    }
+  },
+  {
+    "job_id": 29,
+    "applicant_id": 43,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 138142
+    }
+  },
+  {
+    "job_id": 81,
+    "applicant_id": 47,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 136466
+    }
+  },
+  {
+    "job_id": 86,
+    "applicant_id": 20,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 117076
+    }
+  },
+  {
+    "job_id": 22,
+    "applicant_id": 47,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 131184
+    }
+  },
+  {
+    "job_id": 43,
+    "applicant_id": 50,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 138030
+    }
+  },
+  {
+    "job_id": 11,
+    "applicant_id": 29,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 90473
+    }
+  },
+  {
+    "job_id": 79,
+    "applicant_id": 44,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 128869
+    }
+  },
+  {
+    "job_id": 54,
+    "applicant_id": 27,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 69819
+    }
+  },
+  {
+    "job_id": 67,
+    "applicant_id": 22,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 103489
+    }
+  },
+  {
+    "job_id": 90,
+    "applicant_id": 22,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 104468
+    }
+  },
+  {
+    "job_id": 40,
+    "applicant_id": 48,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 113813
+    }
+  },
+  {
+    "job_id": 94,
+    "applicant_id": 38,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 74657
+    }
+  },
+  {
+    "job_id": 81,
+    "applicant_id": 42,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 112158
+    }
+  },
+  {
+    "job_id": 57,
+    "applicant_id": 50,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 76952
+    }
+  },
+  {
+    "job_id": 83,
+    "applicant_id": 39,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 81410
+    }
+  },
+  {
+    "job_id": 36,
+    "applicant_id": 43,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 63902
+    }
+  },
+  {
+    "job_id": 91,
+    "applicant_id": 36,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 148008
+    }
+  },
+  {
+    "job_id": 56,
+    "applicant_id": 44,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 121957
+    }
+  },
+  {
+    "job_id": 76,
+    "applicant_id": 29,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 88695
+    }
+  },
+  {
+    "job_id": 93,
+    "applicant_id": 41,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 81683
+    }
+  },
+  {
+    "job_id": 97,
+    "applicant_id": 17,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 124842
+    }
+  },
+  {
+    "job_id": 25,
+    "applicant_id": 45,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 70742
+    }
+  },
+  {
+    "job_id": 81,
+    "applicant_id": 23,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 124463
+    }
+  },
+  {
+    "job_id": 100,
+    "applicant_id": 36,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 121719
+    }
+  },
+  {
+    "job_id": 39,
+    "applicant_id": 37,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 67693
+    }
+  },
+  {
+    "job_id": 13,
+    "applicant_id": 50,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 108684
+    }
+  },
+  {
+    "job_id": 2,
+    "applicant_id": 47,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 131095
+    }
+  },
+  {
+    "job_id": 94,
+    "applicant_id": 40,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 97352
+    }
+  },
+  {
+    "job_id": 92,
+    "applicant_id": 33,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 138344
+    }
+  },
+  {
+    "job_id": 76,
+    "applicant_id": 40,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 72258
+    }
+  },
+  {
+    "job_id": 61,
+    "applicant_id": 30,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 139951
+    }
+  },
+  {
+    "job_id": 66,
+    "applicant_id": 21,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 126855
+    }
+  },
+  {
+    "job_id": 1,
+    "applicant_id": 48,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 140440
+    }
+  },
+  {
+    "job_id": 93,
+    "applicant_id": 33,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 101212
+    }
+  },
+  {
+    "job_id": 12,
+    "applicant_id": 39,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 149109
+    }
+  },
+  {
+    "job_id": 73,
+    "applicant_id": 36,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 88613
+    }
+  },
+  {
+    "job_id": 40,
+    "applicant_id": 49,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 132595
+    }
+  },
+  {
+    "job_id": 28,
+    "applicant_id": 16,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 109617
+    }
+  },
+  {
+    "job_id": 85,
+    "applicant_id": 46,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 87707
+    }
+  },
+  {
+    "job_id": 30,
+    "applicant_id": 40,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 63826
+    }
+  },
+  {
+    "job_id": 66,
+    "applicant_id": 17,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 63390
+    }
+  },
+  {
+    "job_id": 42,
+    "applicant_id": 17,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 97760
+    }
+  },
+  {
+    "job_id": 77,
+    "applicant_id": 17,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 141033
+    }
+  },
+  {
+    "job_id": 66,
+    "applicant_id": 24,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 147506
+    }
+  },
+  {
+    "job_id": 73,
+    "applicant_id": 44,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 130654
+    }
+  },
+  {
+    "job_id": 8,
+    "applicant_id": 29,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 107580
+    }
+  },
+  {
+    "job_id": 69,
+    "applicant_id": 44,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 98873
+    }
+  },
+  {
+    "job_id": 74,
+    "applicant_id": 45,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 117487
+    }
+  },
+  {
+    "job_id": 8,
+    "applicant_id": 38,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 128226
+    }
+  },
+  {
+    "job_id": 36,
+    "applicant_id": 26,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 108454
+    }
+  },
+  {
+    "job_id": 57,
+    "applicant_id": 47,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 123948
+    }
+  },
+  {
+    "job_id": 39,
+    "applicant_id": 33,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 64385
+    }
+  },
+  {
+    "job_id": 99,
+    "applicant_id": 34,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 62655
+    }
+  },
+  {
+    "job_id": 80,
+    "applicant_id": 31,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 144258
+    }
+  },
+  {
+    "job_id": 94,
+    "applicant_id": 38,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 94334
+    }
+  },
+  {
+    "job_id": 67,
+    "applicant_id": 41,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 92623
+    }
+  },
+  {
+    "job_id": 11,
+    "applicant_id": 46,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 118793
+    }
+  },
+  {
+    "job_id": 42,
+    "applicant_id": 41,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 145627
+    }
+  },
+  {
+    "job_id": 13,
+    "applicant_id": 17,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 70398
+    }
+  },
+  {
+    "job_id": 10,
+    "applicant_id": 46,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 141393
+    }
+  },
+  {
+    "job_id": 93,
+    "applicant_id": 49,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 149491
+    }
+  },
+  {
+    "job_id": 44,
+    "applicant_id": 33,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 66466
+    }
+  },
+  {
+    "job_id": 82,
+    "applicant_id": 34,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 106187
+    }
+  },
+  {
+    "job_id": 13,
+    "applicant_id": 46,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 110319
+    }
+  },
+  {
+    "job_id": 26,
+    "applicant_id": 50,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 98156
+    }
+  },
+  {
+    "job_id": 79,
+    "applicant_id": 38,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 112447
+    }
+  },
+  {
+    "job_id": 9,
+    "applicant_id": 18,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 86070
+    }
+  },
+  {
+    "job_id": 79,
+    "applicant_id": 39,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 86803
+    }
+  },
+  {
+    "job_id": 46,
+    "applicant_id": 29,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 76837
+    }
+  },
+  {
+    "job_id": 30,
+    "applicant_id": 37,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 101110
+    }
+  },
+  {
+    "job_id": 75,
+    "applicant_id": 44,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 84947
+    }
+  },
+  {
+    "job_id": 36,
+    "applicant_id": 33,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 62353
+    }
+  },
+  {
+    "job_id": 3,
+    "applicant_id": 45,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 93369
+    }
+  },
+  {
+    "job_id": 34,
+    "applicant_id": 39,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 112631
+    }
+  },
+  {
+    "job_id": 18,
+    "applicant_id": 24,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 72829
+    }
+  },
+  {
+    "job_id": 18,
+    "applicant_id": 19,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 107557
+    }
+  },
+  {
+    "job_id": 84,
+    "applicant_id": 17,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 146055
+    }
+  },
+  {
+    "job_id": 81,
+    "applicant_id": 48,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 81344
+    }
+  },
+  {
+    "job_id": 20,
+    "applicant_id": 30,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 60548
+    }
+  },
+  {
+    "job_id": 43,
+    "applicant_id": 34,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 133642
+    }
+  },
+  {
+    "job_id": 100,
+    "applicant_id": 35,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 66842
+    }
+  },
+  {
+    "job_id": 79,
+    "applicant_id": 47,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 112865
+    }
+  },
+  {
+    "job_id": 91,
+    "applicant_id": 16,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 135190
+    }
+  },
+  {
+    "job_id": 98,
+    "applicant_id": 34,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 146250
+    }
+  },
+  {
+    "job_id": 62,
+    "applicant_id": 20,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 127713
+    }
+  },
+  {
+    "job_id": 43,
+    "applicant_id": 45,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 77517
+    }
+  },
+  {
+    "job_id": 75,
+    "applicant_id": 23,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 105182
+    }
+  },
+  {
+    "job_id": 84,
+    "applicant_id": 35,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 130006
+    }
+  },
+  {
+    "job_id": 52,
+    "applicant_id": 44,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 138762
+    }
+  },
+  {
+    "job_id": 10,
+    "applicant_id": 25,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 61331
+    }
+  },
+  {
+    "job_id": 79,
+    "applicant_id": 49,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 91201
+    }
+  },
+  {
+    "job_id": 7,
+    "applicant_id": 41,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 125993
+    }
+  },
+  {
+    "job_id": 83,
+    "applicant_id": 16,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 123958
+    }
+  },
+  {
+    "job_id": 57,
+    "applicant_id": 43,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 65719
+    }
+  },
+  {
+    "job_id": 15,
+    "applicant_id": 31,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 77280
+    }
+  },
+  {
+    "job_id": 73,
+    "applicant_id": 32,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 109092
+    }
+  },
+  {
+    "job_id": 89,
+    "applicant_id": 37,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 109285
+    }
+  },
+  {
+    "job_id": 44,
+    "applicant_id": 50,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 77190
+    }
+  },
+  {
+    "job_id": 63,
+    "applicant_id": 18,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 128459
+    }
+  },
+  {
+    "job_id": 66,
+    "applicant_id": 19,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 130270
+    }
+  },
+  {
+    "job_id": 68,
+    "applicant_id": 20,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 94189
+    }
+  },
+  {
+    "job_id": 74,
+    "applicant_id": 29,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 60980
+    }
+  },
+  {
+    "job_id": 21,
+    "applicant_id": 36,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 133220
+    }
+  },
+  {
+    "job_id": 80,
+    "applicant_id": 35,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 72685
+    }
+  },
+  {
+    "job_id": 89,
+    "applicant_id": 38,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 86882
+    }
+  },
+  {
+    "job_id": 76,
+    "applicant_id": 16,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 123871
+    }
+  },
+  {
+    "job_id": 40,
+    "applicant_id": 42,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 142794
+    }
+  },
+  {
+    "job_id": 83,
+    "applicant_id": 30,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 78150
+    }
+  },
+  {
+    "job_id": 98,
+    "applicant_id": 25,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 138797
+    }
+  },
+  {
+    "job_id": 44,
+    "applicant_id": 20,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 102506
+    }
+  },
+  {
+    "job_id": 38,
+    "applicant_id": 37,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 136408
+    }
+  },
+  {
+    "job_id": 54,
+    "applicant_id": 22,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 126563
+    }
+  },
+  {
+    "job_id": 37,
+    "applicant_id": 33,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 128685
+    }
+  },
+  {
+    "job_id": 20,
+    "applicant_id": 30,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 66487
+    }
+  },
+  {
+    "job_id": 69,
+    "applicant_id": 22,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 71996
+    }
+  },
+  {
+    "job_id": 44,
+    "applicant_id": 43,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 110515
+    }
+  },
+  {
+    "job_id": 17,
+    "applicant_id": 18,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 62598
+    }
+  },
+  {
+    "job_id": 51,
+    "applicant_id": 28,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 140735
+    }
+  },
+  {
+    "job_id": 95,
+    "applicant_id": 26,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 62879
+    }
+  },
+  {
+    "job_id": 58,
+    "applicant_id": 23,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 103758
+    }
+  },
+  {
+    "job_id": 67,
+    "applicant_id": 32,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 141177
+    }
+  },
+  {
+    "job_id": 42,
+    "applicant_id": 23,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 95185
+    }
+  },
+  {
+    "job_id": 42,
+    "applicant_id": 16,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 107357
+    }
+  },
+  {
+    "job_id": 13,
+    "applicant_id": 29,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 101327
+    }
+  },
+  {
+    "job_id": 7,
+    "applicant_id": 21,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 121114
+    }
+  },
+  {
+    "job_id": 4,
+    "applicant_id": 22,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 93932
+    }
+  },
+  {
+    "job_id": 53,
+    "applicant_id": 40,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 115446
+    }
+  },
+  {
+    "job_id": 32,
+    "applicant_id": 25,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 136223
+    }
+  },
+  {
+    "job_id": 77,
+    "applicant_id": 22,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 92462
+    }
+  },
+  {
+    "job_id": 81,
+    "applicant_id": 32,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 138585
+    }
+  },
+  {
+    "job_id": 75,
+    "applicant_id": 17,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 110464
+    }
+  },
+  {
+    "job_id": 52,
+    "applicant_id": 16,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 85054
+    }
+  },
+  {
+    "job_id": 10,
+    "applicant_id": 20,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 149365
+    }
+  },
+  {
+    "job_id": 67,
+    "applicant_id": 36,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 7,
+      "expected_salary": 114407
+    }
+  },
+  {
+    "job_id": 91,
+    "applicant_id": 23,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 118488
+    }
+  },
+  {
+    "job_id": 50,
+    "applicant_id": 38,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 84544
+    }
+  },
+  {
+    "job_id": 87,
+    "applicant_id": 23,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 87785
+    }
+  },
+  {
+    "job_id": 60,
+    "applicant_id": 25,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 2,
+      "expected_salary": 63145
+    }
+  },
+  {
+    "job_id": 89,
+    "applicant_id": 29,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 90261
+    }
+  },
+  {
+    "job_id": 30,
+    "applicant_id": 33,
+    "status": "hired",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 144242
+    }
+  },
+  {
+    "job_id": 44,
+    "applicant_id": 32,
+    "status": "interviewed",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 122972
+    }
+  },
+  {
+    "job_id": 30,
+    "applicant_id": 42,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 101704
+    }
+  },
+  {
+    "job_id": 85,
+    "applicant_id": 46,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 77173
+    }
+  },
+  {
+    "job_id": 38,
+    "applicant_id": 48,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 1,
+      "expected_salary": 110771
+    }
+  },
+  {
+    "job_id": 29,
+    "applicant_id": 35,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 8,
+      "expected_salary": 98837
+    }
+  },
+  {
+    "job_id": 35,
+    "applicant_id": 33,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 148856
+    }
+  },
+  {
+    "job_id": 67,
+    "applicant_id": 47,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 6,
+      "expected_salary": 62416
+    }
+  },
+  {
+    "job_id": 17,
+    "applicant_id": 30,
+    "status": "offer_extended",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 9,
+      "expected_salary": 68493
+    }
+  },
+  {
+    "job_id": 67,
+    "applicant_id": 27,
+    "status": "interview_scheduled",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 110707
+    }
+  },
+  {
+    "job_id": 87,
+    "applicant_id": 32,
+    "status": "reviewing",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 4,
+      "expected_salary": 97045
+    }
+  },
+  {
+    "job_id": 76,
+    "applicant_id": 24,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 5,
+      "expected_salary": 118040
+    }
+  },
+  {
+    "job_id": 29,
+    "applicant_id": 26,
+    "status": "pending",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 10,
+      "expected_salary": 105056
+    }
+  },
+  {
+    "job_id": 5,
+    "applicant_id": 24,
+    "status": "rejected",
+    "cover_letter": "I am very interested in this position and believe my skills and experience make me a strong candidate.",
+    "additional_data": {
+      "years_of_experience": 3,
+      "expected_salary": 99905
+    }
+  }
+]

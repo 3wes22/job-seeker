@@ -118,6 +118,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
+    'SIGNING_KEY': config('JWT_SECRET_KEY', default='django-insecure-jwt-secret-key-shared-across-services'),
 }
 
 # CORS Settings (for local development)

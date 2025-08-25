@@ -1,0 +1,71 @@
+[
+  {
+    "name": "Python"
+  },
+  {
+    "name": "JavaScript"
+  },
+  {
+    "name": "React"
+  },
+  {
+    "name": "Node.js"
+  },
+  {
+    "name": "Django"
+  },
+  {
+    "name": "Flask"
+  },
+  {
+    "name": "PostgreSQL"
+  },
+  {
+    "name": "MongoDB"
+  },
+  {
+    "name": "AWS"
+  },
+  {
+    "name": "Docker"
+  },
+  {
+    "name": "Kubernetes"
+  },
+  {
+    "name": "Git"
+  },
+  {
+    "name": "HTML/CSS"
+  },
+  {
+    "name": "TypeScript"
+  },
+  {
+    "name": "Vue.js"
+  },
+  {
+    "name": "Angular"
+  },
+  {
+    "name": "Java"
+  },
+  {
+    "name": "C++"
+  },
+  {
+    "name": "Machine Learning"
+  },
+  {
+    "name": "Data Analysis"
+  },
+  {
+    "name": "SQL"
+  },
+  {
+    "name": "Redis"
+  },
+  {
+    "name": "GraphQL"
+  }
+]

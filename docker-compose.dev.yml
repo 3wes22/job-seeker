@@ -1,0 +1,105 @@
+# Development Docker Compose Override
+# Use with: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  # Development overrides for existing services
+  user-service:
+    build:
+      context: ./backend/user-service
+      args:
+        ENVIRONMENT: development
+    environment:
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=user_service.settings
+    volumes:
+      - ./backend/user-service:/app
+      - /app/__pycache__
+      - /app/.pytest_cache
+    ports:
+      - "8001:8000"
+    command: ["./start_with_kafka.sh"]
+
+  job-service:
+    build:
+      context: ./backend/job-service
+      args:
+        ENVIRONMENT: development
+    environment:
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=job_service.settings
+    volumes:
+      - ./backend/job-service:/app
+      - /app/__pycache__
+      - /app/.pytest_cache
+    ports:
+      - "8002:8000"
+    command: ["./start_with_kafka.sh"]
+
+  # Development-only services
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - job-platform-network
+
+  # Development database with persistent data
+  postgres-dev:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: job_platform_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./backend/init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - job-platform-network
+
+  # Development monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - job-platform-network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+    networks:
+      - job-platform-network
+
+volumes:
+  postgres_dev_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  job-platform-network:
+    external: false

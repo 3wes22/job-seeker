@@ -1,0 +1,202 @@
+[
+  {
+    "name": "TechCorp",
+    "description": "Leading company in Technology industry providing innovative solutions.",
+    "website": "https://www.techcorp.com",
+    "industry": "Technology",
+    "size": "large",
+    "founded_year": 1996,
+    "location": "Chicago, IL",
+    "is_verified": false
+  },
+  {
+    "name": "StartupXYZ",
+    "description": "Leading company in Technology industry providing innovative solutions.",
+    "website": "https://www.startupxyz.com",
+    "industry": "Technology",
+    "size": "startup",
+    "founded_year": 1992,
+    "location": "Los Angeles, CA",
+    "is_verified": true
+  },
+  {
+    "name": "FinanceFlow",
+    "description": "Leading company in Finance industry providing innovative solutions.",
+    "website": "https://www.financeflow.com",
+    "industry": "Finance",
+    "size": "medium",
+    "founded_year": 1994,
+    "location": "Remote",
+    "is_verified": true
+  },
+  {
+    "name": "HealthTech Solutions",
+    "description": "Leading company in Healthcare industry providing innovative solutions.",
+    "website": "https://www.healthtechsolutions.com",
+    "industry": "Healthcare",
+    "size": "medium",
+    "founded_year": 2016,
+    "location": "New York, NY",
+    "is_verified": false
+  },
+  {
+    "name": "EduPlatform",
+    "description": "Leading company in Education industry providing innovative solutions.",
+    "website": "https://www.eduplatform.com",
+    "industry": "Education",
+    "size": "small",
+    "founded_year": 1992,
+    "location": "Seattle, WA",
+    "is_verified": false
+  },
+  {
+    "name": "RetailGiant",
+    "description": "Leading company in Retail industry providing innovative solutions.",
+    "website": "https://www.retailgiant.com",
+    "industry": "Retail",
+    "size": "large",
+    "founded_year": 2005,
+    "location": "Austin, TX",
+    "is_verified": true
+  },
+  {
+    "name": "GreenEnergy Co",
+    "description": "Leading company in Energy industry providing innovative solutions.",
+    "website": "https://www.greenenergyco.com",
+    "industry": "Energy",
+    "size": "medium",
+    "founded_year": 2016,
+    "location": "Seattle, WA",
+    "is_verified": false
+  },
+  {
+    "name": "MediaMaker",
+    "description": "Leading company in Media industry providing innovative solutions.",
+    "website": "https://www.mediamaker.com",
+    "industry": "Media",
+    "size": "small",
+    "founded_year": 1990,
+    "location": "Remote",
+    "is_verified": false
+  },
+  {
+    "name": "TechCorp 69",
+    "description": "Leading company in Technology industry providing innovative solutions.",
+    "website": "https://www.techcorp.com",
+    "industry": "Technology",
+    "size": "large",
+    "founded_year": 2007,
+    "location": "San Francisco, CA",
+    "is_verified": false
+  },
+  {
+    "name": "StartupXYZ 31",
+    "description": "Leading company in Technology industry providing innovative solutions.",
+    "website": "https://www.startupxyz.com",
+    "industry": "Technology",
+    "size": "startup",
+    "founded_year": 1997,
+    "location": "Seattle, WA",
+    "is_verified": true
+  },
+  {
+    "name": "FinanceFlow 46",
+    "description": "Leading company in Finance industry providing innovative solutions.",
+    "website": "https://www.financeflow.com",
+    "industry": "Finance",
+    "size": "medium",
+    "founded_year": 1992,
+    "location": "Chicago, IL",
+    "is_verified": false
+  },
+  {
+    "name": "HealthTech Solutions 16",
+    "description": "Leading company in Healthcare industry providing innovative solutions.",
+    "website": "https://www.healthtechsolutions.com",
+    "industry": "Healthcare",
+    "size": "medium",
+    "founded_year": 2016,
+    "location": "Chicago, IL",
+    "is_verified": true
+  },
+  {
+    "name": "EduPlatform 57",
+    "description": "Leading company in Education industry providing innovative solutions.",
+    "website": "https://www.eduplatform.com",
+    "industry": "Education",
+    "size": "small",
+    "founded_year": 2010,
+    "location": "Toronto, Canada",
+    "is_verified": true
+  },
+  {
+    "name": "RetailGiant 85",
+    "description": "Leading company in Retail industry providing innovative solutions.",
+    "website": "https://www.retailgiant.com",
+    "industry": "Retail",
+    "size": "large",
+    "founded_year": 2020,
+    "location": "Los Angeles, CA",
+    "is_verified": true
+  },
+  {
+    "name": "GreenEnergy Co 42",
+    "description": "Leading company in Energy industry providing innovative solutions.",
+    "website": "https://www.greenenergyco.com",
+    "industry": "Energy",
+    "size": "medium",
+    "founded_year": 2006,
+    "location": "New York, NY",
+    "is_verified": false
+  },
+  {
+    "name": "MediaMaker 50",
+    "description": "Leading company in Media industry providing innovative solutions.",
+    "website": "https://www.mediamaker.com",
+    "industry": "Media",
+    "size": "small",
+    "founded_year": 2004,
+    "location": "London, UK",
+    "is_verified": false
+  },
+  {
+    "name": "TechCorp 19",
+    "description": "Leading company in Technology industry providing innovative solutions.",
+    "website": "https://www.techcorp.com",
+    "industry": "Technology",
+    "size": "large",
+    "founded_year": 1999,
+    "location": "Austin, TX",
+    "is_verified": true
+  },
+  {
+    "name": "StartupXYZ 97",
+    "description": "Leading company in Technology industry providing innovative solutions.",
+    "website": "https://www.startupxyz.com",
+    "industry": "Technology",
+    "size": "startup",
+    "founded_year": 2002,
+    "location": "Toronto, Canada",
+    "is_verified": true
+  },
+  {
+    "name": "FinanceFlow 14",
+    "description": "Leading company in Finance industry providing innovative solutions.",
+    "website": "https://www.financeflow.com",
+    "industry": "Finance",
+    "size": "medium",
+    "founded_year": 2013,
+    "location": "London, UK",
+    "is_verified": true
+  },
+  {
+    "name": "HealthTech Solutions 68",
+    "description": "Leading company in Healthcare industry providing innovative solutions.",
+    "website": "https://www.healthtechsolutions.com",
+    "industry": "Healthcare",
+    "size": "medium",
+    "founded_year": 2001,
+    "location": "Berlin, Germany",
+    "is_verified": false
+  }
+]

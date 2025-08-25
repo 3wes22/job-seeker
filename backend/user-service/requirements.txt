@@ -1,12 +1,48 @@
-Django==4.2.7
-djangorestframework==3.14.0
-djangorestframework-simplejwt==5.3.0
-django-cors-headers==4.3.1
-psycopg[binary]==3.2.9
-python-decouple==3.8
-django-extensions==3.2.3
-requests==2.31.0
-celery==5.3.4
-redis==5.0.1
-Pillow==11.3.0
-kafka-python==2.0.2
+# Core Django Framework
+Django==5.0.7                    # Latest LTS version with security fixes
+djangorestframework==3.15.1      # Latest stable DRF version
+djangorestframework-simplejwt==5.3.1  # Latest JWT implementation
+
+# Database & ORM
+psycopg[binary]==3.1.18          # Latest PostgreSQL adapter
+dj-database-url==2.2.0           # Database URL parsing utility
+
+# Security & Authentication
+django-cors-headers==4.3.1       # CORS handling
+django-extensions==3.2.3         # Development utilities
+
+# HTTP & API
+requests==2.31.0                  # HTTP library
+urllib3==2.2.0                    # HTTP client (security update)
+
+# Task Queue & Caching
+celery==5.3.6                     # Latest Celery version
+redis==5.0.1                      # Redis client
+kombu==5.3.5                      # Message transport for Celery
+
+# Media & File Handling
+Pillow==10.4.0                    # Image processing (security update)
+
+# Kafka Integration
+kafka-python==2.0.2               # Kafka client library
+
+# Environment & Configuration
+python-decouple==3.8              # Environment variable management
+
+# Development & Testing
+pytest==8.0.2                     # Testing framework
+pytest-django==4.8.0              # Django testing utilities
+factory-boy==3.3.0                # Test data generation
+
+# Code Quality
+black==24.2.0                     # Code formatting
+flake8==7.0.0                     # Linting
+isort==5.13.2                     # Import sorting
+
+# Monitoring & Logging
+structlog==24.1.0                 # Structured logging
+sentry-sdk==2.7.0                 # Error tracking (optional)
+
+# Performance
+django-debug-toolbar==4.3.0       # Development debugging
+django-cacheops==8.1.0            # Query caching

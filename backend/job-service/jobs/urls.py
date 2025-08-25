@@ -10,6 +10,10 @@ urlpatterns = [
     path('create/', views.job_create, name='job_create'),
     path('<int:job_id>/update/', views.job_update, name='job_update'),
     path('<int:job_id>/delete/', views.job_delete, name='job_delete'),
+    path('<int:job_id>/withdraw/', views.job_withdraw, name='job_withdraw'),
+    
+    # Employer-specific endpoints
+    path('employer/', views.employer_jobs, name='employer_jobs'),
     
     # Company-related endpoints
     path('companies/', views.company_list, name='company_list'),

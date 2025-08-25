@@ -24,7 +24,10 @@ class JobSkillSerializer(serializers.ModelSerializer):
 
 
 class JobSerializer(serializers.ModelSerializer):
-    company = CompanySerializer(read_only=True)
+    company = serializers.PrimaryKeyRelatedField(
+        queryset=Company.objects.all(),
+        help_text="Company ID for this job"
+    )
     categories = JobCategorySerializer(many=True, read_only=True)
     skills = JobSkillSerializer(many=True, read_only=True)
     salary_range = serializers.ReadOnlyField()

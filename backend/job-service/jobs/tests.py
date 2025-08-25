@@ -11,11 +11,13 @@ class JobModelTest(TestCase):
             name="Test Company",
             description="A test company",
             industry="Technology",
-            location="San Francisco"
+            location="San Francisco",
+            employer_id=1
         )
         
         self.category = JobCategory.objects.create(
-            name="Software Development"
+            name="Software Development",
+            description="Software development category"
         )
         
         self.skill = JobSkill.objects.create(
@@ -48,7 +50,8 @@ class CompanyModelTest(TestCase):
         self.company = Company.objects.create(
             name="Test Company",
             description="A test company",
-            industry="Technology"
+            industry="Technology",
+            employer_id=1
         )
 
     def test_company_creation(self):

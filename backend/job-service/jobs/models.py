@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 
@@ -18,7 +17,7 @@ class Company(models.Model):
     Company Model - Represents employer organizations posting jobs
     
     PURPOSE: Stores company information for job postings
-    RELATIONSHIP: One-to-one with User (employer) from user-service
+    RELATIONSHIP: References user ID from user-service via employer_id field
     
     KEY FEATURES:
     - Company identification and branding
@@ -27,17 +26,7 @@ class Company(models.Model):
     - Verification status for trust
     """
     
-    # ========================================================================
-    # COMPANY SIZE CHOICES - Standard business size classifications
-    # ========================================================================
-    COMPANY_SIZE_CHOICES = [
-        ('1-10', '1-10 employees'),
-        ('11-50', '11-50 employees'),
-        ('51-200', '51-200 employees'),
-        ('201-500', '201-500 employees'),
-        ('501-1000', '501-1000 employees'),
-        ('1000+', '1000+ employees'),
-    ]
+
     
     # ========================================================================
     # CORE COMPANY FIELDS - Essential company information
@@ -56,11 +45,16 @@ class Company(models.Model):
         help_text="Primary industry sector (e.g., Technology, Healthcare)"
     )
     
-    company_size = models.CharField(
-        max_length=20,
-        choices=COMPANY_SIZE_CHOICES,
+    size = models.CharField(
+        max_length=50,
+        choices=[
+            ('startup', 'Startup'),
+            ('small', 'Small (1-50 employees)'),
+            ('medium', 'Medium (51-200 employees)'),
+            ('large', 'Large (200+ employees)'),
+        ],
         blank=True,
-        help_text="Number of employees for company size classification"
+        help_text="Company size classification"
     )
     
     # Location Information
@@ -91,11 +85,9 @@ class Company(models.Model):
     # ========================================================================
     # RELATIONSHIPS - Links to other models
     # ========================================================================
-    employer = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='companies',
-        help_text="User account associated with this company"
+    employer_id = models.IntegerField(
+        default=1,
+        help_text="ID of the user account associated with this company"
     )
     
     # ========================================================================
@@ -117,7 +109,7 @@ class Company(models.Model):
     # STRING REPRESENTATION - How company appears in admin and logs
     # ========================================================================
     def __str__(self):
-        return f"{self.name} ({self.get_company_size_display()})"
+        return f"{self.name} ({self.get_size_display()})"
 
     # ========================================================================
     # BUSINESS LOGIC METHODS - Company-specific operations
@@ -422,15 +414,14 @@ class Job(models.Model):
     ]
     
     # ========================================================================
-    # EMPLOYMENT TYPE CHOICES - Type of employment arrangement
+    # JOB TYPE CHOICES - Type of employment arrangement
     # ========================================================================
-    EMPLOYMENT_TYPE_CHOICES = [
+    JOB_TYPE_CHOICES = [
         ('full_time', 'Full Time'),
         ('part_time', 'Part Time'),
         ('contract', 'Contract'),
         ('internship', 'Internship'),
         ('freelance', 'Freelance'),
-        ('temporary', 'Temporary'),
     ]
     
     # ========================================================================
@@ -471,9 +462,9 @@ class Job(models.Model):
     )
     
     # Employment Information
-    employment_type = models.CharField(
-        max_length=20,
-        choices=EMPLOYMENT_TYPE_CHOICES,
+    job_type = models.CharField(
+        max_length=50,
+        choices=JOB_TYPE_CHOICES,
         default='full_time',
         help_text="Type of employment arrangement"
     )
@@ -573,11 +564,9 @@ class Job(models.Model):
         help_text="Company posting this job"
     )
     
-    employer = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='posted_jobs',
-        help_text="User who posted this job"
+    employer_id = models.IntegerField(
+        default=1,
+        help_text="ID of the user who posted this job"
     )
     
     # Categories and Skills
@@ -622,7 +611,7 @@ class Job(models.Model):
         indexes = [
             models.Index(fields=['status', 'is_active']),
             models.Index(fields=['location']),
-            models.Index(fields=['employment_type']),
+            models.Index(fields=['job_type']),
             models.Index(fields=['experience_level']),
         ]
 

@@ -1,4 +1,4 @@
-version: '3.8'
+# Docker Compose file for Job Platform Microservices
 
 services:
   # Databases
@@ -115,13 +115,9 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka:29092
-      CONFLUENT_METRICS_ENABLE: 'true'
-      CONFLUENT_SUPPORT_CUSTOMER_ID: anonymous
     networks:
       - job-platform-network
 
@@ -160,7 +156,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres123@postgres-users:5432/users_db
       - REDIS_URL=redis://redis:6379/0
-      - JWT_SECRET=your-jwt-secret-key-here
+      - JWT_SECRET_KEY=django-insecure-jwt-secret-key-shared-across-services
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - KAFKA_GROUP_ID=user-service-group
     depends_on:
@@ -175,6 +171,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres123@postgres-jobs:5432/jobs_db
       - USER_SERVICE_URL=http://user-service:8000
+      - JWT_SECRET_KEY=django-insecure-jwt-secret-key-shared-across-services
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - KAFKA_GROUP_ID=job-service-group
     depends_on:

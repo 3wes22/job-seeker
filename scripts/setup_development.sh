@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# Development Setup Script for Job Platform
-# This script sets up the entire development environment
+# Development Environment Setup Script for Job Platform
+# This script sets up the development environment with all necessary tools
 
-set -e  # Exit on any error
+set -e
 
-echo "🚀 Setting up Job Platform Development Environment"
-echo "=================================================="
+echo "🚀 Setting up Job Platform Development Environment..."
 
 # Colors for output
 RED='\033[0;31m'
@@ -17,476 +16,244 @@ NC='\033[0m' # No Color
 
 # Function to print colored output
 print_status() {
-    echo -e "${GREEN}✓${NC} $1"
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
 }
 
 print_warning() {
-    echo -e "${YELLOW}⚠${NC} $1"
+    echo -e "${YELLOW}[WARNING]${NC} $1"
 }
 
 print_error() {
-    echo -e "${RED}✗${NC} $1"
+    echo -e "${RED}[ERROR]${NC} $1"
 }
 
-print_info() {
-    echo -e "${BLUE}ℹ${NC} $1"
-}
-
-# Check if Docker is installed
-check_docker() {
+# Check if required tools are installed
+check_requirements() {
+    print_status "Checking system requirements..."
+    
+    # Check Python
+    if ! command -v python3 &> /dev/null; then
+        print_error "Python 3.11+ is required but not installed"
+        exit 1
+    fi
+    
+    # Check Docker
     if ! command -v docker &> /dev/null; then
-        print_error "Docker is not installed. Please install Docker first."
+        print_error "Docker is required but not installed"
         exit 1
     fi
-
+    
+    # Check Docker Compose
     if ! command -v docker-compose &> /dev/null; then
-        print_error "Docker Compose is not installed. Please install Docker Compose first."
+        print_error "Docker Compose is required but not installed"
         exit 1
     fi
-
-    print_status "Docker and Docker Compose are installed"
-}
-
-# Check if Flutter is installed
-check_flutter() {
+    
+    # Check Flutter
     if ! command -v flutter &> /dev/null; then
         print_warning "Flutter is not installed. Please install Flutter for mobile development."
-        print_info "Download from: https://flutter.dev/docs/get-started/install"
-    else
-        print_status "Flutter is installed"
-        flutter --version
     fi
-}
-
-# Check if Python is installed
-check_python() {
-    if ! command -v python3 &> /dev/null; then
-        print_error "Python 3 is not installed. Please install Python 3."
-        exit 1
-    fi
-
-    print_status "Python 3 is installed"
-}
-
-# Create necessary directories
-create_directories() {
-    print_info "Creating necessary directories..."
     
-    directories=(
-        "backend/shared/dummy_data"
-        "logs"
-        "data/postgres"
-        "data/redis"
-    )
-
-    for dir in "${directories[@]}"; do
-        mkdir -p "$dir"
-        print_status "Created directory: $dir"
-    done
+    print_success "System requirements check passed"
 }
 
-# Generate dummy data
-generate_dummy_data() {
-    print_info "Generating dummy data..."
+# Setup Python virtual environments
+setup_python_envs() {
+    print_status "Setting up Python virtual environments..."
     
-    if [ -f "backend/shared/dummy_data.py" ]; then
-        cd backend/shared
-        python3 dummy_data.py
+    # User Service
+    if [ ! -d "backend/user-service/venv" ]; then
+        print_status "Creating virtual environment for user-service..."
+        cd backend/user-service
+        python3 -m venv venv
         cd ../..
-        print_status "Dummy data generated successfully"
+    fi
+    
+    # Job Service
+    if [ ! -d "backend/job-service/venv" ]; then
+        print_status "Creating virtual environment for job-service..."
+        cd backend/job-service
+        python3 -m venv venv
+        cd ../..
+    fi
+    
+    print_success "Python virtual environments created"
+}
+
+# Install Python dependencies
+install_python_deps() {
+    print_status "Installing Python dependencies..."
+    
+    # User Service
+    print_status "Installing user-service dependencies..."
+    cd backend/user-service
+    source venv/bin/activate
+    pip install --upgrade pip
+    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
+    cd ../..
+    
+    # Job Service
+    print_status "Installing job-service dependencies..."
+    cd backend/job-service
+    source venv/bin/activate
+    pip install --upgrade pip
+    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
+    cd ../..
+    
+    print_success "Python dependencies installed"
+}
+
+# Setup pre-commit hooks
+setup_precommit() {
+    print_status "Setting up pre-commit hooks..."
+    
+    if command -v pre-commit &> /dev/null; then
+        pre-commit install
+        pre-commit install --hook-type commit-msg
+        print_success "Pre-commit hooks installed"
     else
-        print_warning "Dummy data generator not found. Skipping dummy data generation."
+        print_warning "pre-commit not installed. Installing now..."
+        pip install pre-commit
+        pre-commit install
+        pre-commit install --hook-type commit-msg
+        print_success "Pre-commit hooks installed"
     fi
 }
 
-# Setup backend environment
-setup_backend() {
-    print_info "Setting up backend services..."
-    
-    # Create virtual environment for each service
-    backend_services=(
-        "user-service"
-        "job-service"
-        "application-service"
-        "search-service"
-        "notification-service"
-        "analytics-service"
-    )
-
-    for service in "${backend_services[@]}"; do
-        if [ -d "backend/$service" ]; then
-            print_info "Setting up $service..."
-            cd "backend/$service"
-            
-            # Create virtual environment if it doesn't exist
-            if [ ! -d "venv" ]; then
-                python3 -m venv venv
-                print_status "Created virtual environment for $service"
-            fi
-            
-            # Activate virtual environment and install dependencies
-            source venv/bin/activate
-            if [ -f "requirements.txt" ]; then
-                print_info "Installing dependencies for $service (this may take a moment)..."
-                pip install -r requirements.txt --quiet --no-warn-script-location 2>/dev/null
-                if [ $? -eq 0 ]; then
-                    print_status "Installed dependencies for $service"
-                else
-                    print_warning "Some dependencies for $service may have installation issues, but continuing..."
-                fi
-            fi
-            deactivate
-            
-            cd ../..
-        else
-            print_warning "Service directory not found: backend/$service"
-        fi
-    done
-}
-
-# Setup Flutter frontend
+# Setup Flutter dependencies
 setup_flutter() {
     if command -v flutter &> /dev/null; then
-        print_info "Setting up Flutter frontend..."
-        
+        print_status "Setting up Flutter dependencies..."
         cd frontend/flutter-app
-        
-        # Get Flutter dependencies
         flutter pub get
-        print_status "Flutter dependencies installed"
-        
-        # Run code generation if needed
-        if grep -q "build_runner" pubspec.yaml; then
-            flutter packages pub run build_runner build --delete-conflicting-outputs
-            print_status "Code generation completed"
-        fi
-        
+        flutter pub run build_runner build --delete-conflicting-outputs
         cd ../..
+        print_success "Flutter dependencies installed"
     else
-        print_warning "Flutter not installed. Skipping Flutter setup."
+        print_warning "Flutter not available, skipping Flutter setup"
     fi
 }
 
-# Create docker-compose.yml if it doesn't exist
-create_docker_compose() {
-    if [ ! -f "docker-compose.yml" ]; then
-        print_info "Creating docker-compose.yml..."
-        
-        cat > docker-compose.yml << 'EOF'
-version: '3.8'
+# Create development environment file
+create_env_file() {
+    print_status "Creating development environment file..."
+    
+    if [ ! -f ".env.development" ]; then
+        cat > .env.development << EOF
+# Development Environment Configuration
+DEBUG=True
+ENVIRONMENT=development
 
-services:
-  # PostgreSQL Database
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: job_platform
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+# Database URLs
+DATABASE_URL=postgresql://postgres:postgres123@localhost:5438/job_platform_dev
+USER_SERVICE_DATABASE_URL=postgresql://postgres:postgres123@localhost:5432/users_db
+JOB_SERVICE_DATABASE_URL=postgresql://postgres:postgres123@localhost:5433/jobs_db
 
-  # Redis Cache
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./data/redis:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+# Kafka Configuration
+KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+KAFKA_GROUP_ID=dev-group
 
-  # API Gateway
-  api-gateway:
-    build:
-      context: ./infrastructure/docker/api-gateway
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    depends_on:
-      - user-service
-      - job-service
-      - application-service
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+# Redis Configuration
+REDIS_URL=redis://localhost:6379
 
-  # User Service
-  user-service:
-    image: python:3.11-slim
-    working_dir: /app
-    command: bash -c "cd /app && python manage.py runserver 0.0.0.0:8001"
-    ports:
-      - "8001:8001"
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/job_platform
-      - REDIS_URL=redis://redis:6379
-      - DJANGO_SETTINGS_MODULE=user_service.settings
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - ./backend/user-service:/app
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8001/health/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+# Service URLs
+USER_SERVICE_URL=http://localhost:8001
+JOB_SERVICE_URL=http://localhost:8002
 
-  # Job Service
-  job-service:
-    image: python:3.11-slim
-    working_dir: /app
-    command: bash -c "cd /app && python manage.py runserver 0.0.0.0:8002"
-    ports:
-      - "8002:8002"
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/job_platform
-      - REDIS_URL=redis://redis:6379
-      - DJANGO_SETTINGS_MODULE=job_service.settings
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - ./backend/job-service:/app
+# JWT Configuration
+JWT_SECRET_KEY=your-secret-key-here-change-in-production
+JWT_ACCESS_TOKEN_LIFETIME=60
+JWT_REFRESH_TOKEN_LIFETIME=1440
 
-  # Application Service
-  application-service:
-    image: python:3.11-slim
-    working_dir: /app
-    command: bash -c "cd /app && python manage.py runserver 0.0.0.0:8003"
-    ports:
-      - "8003:8003"
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/job_platform
-      - REDIS_URL=redis://redis:6379
-      - DJANGO_SETTINGS_MODULE=application_service.settings
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - ./backend/application-service:/app
+# CORS Settings
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
 
-  # Search Service
-  search-service:
-    image: python:3.11-slim
-    working_dir: /app
-    command: bash -c "cd /app && python manage.py runserver 0.0.0.0:8004"
-    ports:
-      - "8004:8004"
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/job_platform
-      - REDIS_URL=redis://redis:6379
-      - DJANGO_SETTINGS_MODULE=search_service.settings
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - ./backend/search-service:/app
-
-  # Notification Service
-  notification-service:
-    image: python:3.11-slim
-    working_dir: /app
-    command: bash -c "cd /app && python manage.py runserver 0.0.0.0:8005"
-    ports:
-      - "8005:8005"
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/job_platform
-      - REDIS_URL=redis://redis:6379
-      - DJANGO_SETTINGS_MODULE=notification_service.settings
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - ./backend/notification-service:/app
-
-  # Analytics Service
-  analytics-service:
-    image: python:3.11-slim
-    working_dir: /app
-    command: bash -c "cd /app && python manage.py runserver 0.0.0.0:8006"
-    ports:
-      - "8006:8006"
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/job_platform
-      - REDIS_URL=redis://redis:6379
-      - DJANGO_SETTINGS_MODULE=analytics_service.settings
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - ./backend/analytics-service:/app
-
-volumes:
-  postgres_data:
-  redis_data:
-
-networks:
-  default:
-    name: job_platform_network
+# Logging
+LOG_LEVEL=DEBUG
 EOF
-        
-        print_status "Created docker-compose.yml"
+        print_success "Development environment file created"
     else
-        print_status "docker-compose.yml already exists"
+        print_status "Development environment file already exists"
     fi
 }
 
-# Start services
-start_services() {
-    print_info "Starting services with Docker Compose..."
+# Setup monitoring directories
+setup_monitoring() {
+    print_status "Setting up monitoring directories..."
     
-    # Build and start services
-    docker-compose up -d postgres redis
-    print_status "Database services started"
+    mkdir -p monitoring/prometheus
+    mkdir -p monitoring/grafana/dashboards
+    mkdir -p monitoring/grafana/datasources
     
-    # Wait for databases to be ready
-    print_info "Waiting for databases to be ready..."
-    sleep 10
-    
-    # Start backend services
-    docker-compose up -d
-    print_status "All services started"
-    
-    # Show service status
-    print_info "Service status:"
-    docker-compose ps
-}
+    # Create basic Prometheus config
+    if [ ! -f "monitoring/prometheus.yml" ]; then
+        cat > monitoring/prometheus.yml << EOF
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
 
-# Load dummy data
-load_dummy_data() {
-    print_info "Waiting for services to be fully ready..."
-    sleep 30
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'user-service'
+    static_configs:
+      - targets: ['user-service:8000']
+    metrics_path: '/metrics/'
+
+  - job_name: 'job-service'
+    static_configs:
+      - targets: ['job-service:8000']
+    metrics_path: '/metrics/'
+EOF
+        print_success "Prometheus configuration created"
+    fi
     
-    print_info "Loading dummy data..."
-    if [ -f "scripts/load_dummy_data.py" ]; then
-        python3 scripts/load_dummy_data.py
-        print_status "Dummy data loaded successfully"
-    else
-        print_warning "Dummy data loader not found. Skipping data loading."
+    # Create basic Grafana datasource
+    if [ ! -f "monitoring/grafana/datasources/prometheus.yml" ]; then
+        cat > monitoring/grafana/datasources/prometheus.yml << EOF
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+EOF
+        print_success "Grafana datasource configuration created"
     fi
 }
 
-# Show helpful information
-show_info() {
+# Main setup function
+main() {
+    print_status "Starting development environment setup..."
+    
+    check_requirements
+    setup_python_envs
+    install_python_deps
+    setup_precommit
+    setup_flutter
+    create_env_file
+    setup_monitoring
+    
+    print_success "Development environment setup completed!"
     echo ""
-    print_status "🎉 Development environment setup complete!"
+    echo "Next steps:"
+    echo "1. Copy .env.development to .env and customize values"
+    echo "2. Start services: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
+    echo "3. Run migrations: ./scripts/run_migrations.sh"
+    echo "4. Start development servers: ./scripts/start_dev_servers.sh"
     echo ""
-    print_info "Services are running at:"
-    echo "  • API Gateway:          http://localhost:8000"
-    echo "  • User Service:         http://localhost:8001"
-    echo "  • Job Service:          http://localhost:8002"
-    echo "  • Application Service:  http://localhost:8003"
-    echo "  • Search Service:       http://localhost:8004"
-    echo "  • Notification Service: http://localhost:8005"
-    echo "  • Analytics Service:    http://localhost:8006"
-    echo "  • PostgreSQL:           localhost:5432"
-    echo "  • Redis:                localhost:6379"
-    echo ""
-    print_info "Useful commands:"
-    echo "  • View logs:        docker-compose logs -f [service-name]"
-    echo "  • Stop services:    docker-compose down"
-    echo "  • Restart service:  docker-compose restart [service-name]"
-    echo "  • Flutter run:      cd frontend/flutter-app && flutter run"
-    echo ""
-    print_info "API Documentation available at each service's /docs/ endpoint"
+    echo "Happy coding! 🎉"
 }
 
-# Parse command line arguments
-case "${1:-setup}" in
-    "setup")
-        print_info "Running full setup..."
-        check_docker
-        check_flutter
-        check_python
-        create_directories
-        generate_dummy_data
-        
-        # Ask user if they want to skip backend setup for faster start
-        print_info "Backend setup can take several minutes. Skip backend dependency installation? (y/N)"
-        print_info "Note: You can run './scripts/setup_development.sh backend' later to install dependencies"
-        read -r -t 10 skip_backend || skip_backend="N"
-        
-        if [[ ! "$skip_backend" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-            setup_backend
-        else
-            print_warning "Skipped backend setup. Services may not work until dependencies are installed."
-        fi
-        
-        setup_flutter
-        create_docker_compose
-        start_services
-        load_dummy_data
-        show_info
-        ;;
-    "backend")
-        print_info "Setting up backend services only..."
-        setup_backend
-        print_status "Backend setup completed!"
-        ;;
-    "start")
-        print_info "Starting services..."
-        docker-compose up -d
-        show_info
-        ;;
-    "stop")
-        print_info "Stopping services..."
-        docker-compose down
-        print_status "Services stopped"
-        ;;
-    "restart")
-        print_info "Restarting services..."
-        docker-compose restart
-        print_status "Services restarted"
-        ;;
-    "logs")
-        if [ -n "$2" ]; then
-            docker-compose logs -f "$2"
-        else
-            docker-compose logs -f
-        fi
-        ;;
-    "clean")
-        print_warning "This will remove all containers, volumes, and data. Are you sure? (y/N)"
-        read -r response
-        if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-            docker-compose down -v --remove-orphans
-            docker system prune -f
-            rm -rf data/
-            print_status "Environment cleaned"
-        else
-            print_info "Clean operation cancelled"
-        fi
-        ;;
-    "help"|"-h"|"--help")
-        echo "Usage: $0 [command]"
-        echo ""
-        echo "Commands:"
-        echo "  setup     - Full development environment setup (default)"
-        echo "  backend   - Setup backend services dependencies only"
-        echo "  start     - Start all services"
-        echo "  stop      - Stop all services"
-        echo "  restart   - Restart all services"
-        echo "  logs      - Show logs (optionally specify service name)"
-        echo "  clean     - Remove all containers and data"
-        echo "  help      - Show this help message"
-        ;;
-    *)
-        print_error "Unknown command: $1"
-        print_info "Run '$0 help' for usage information"
-        exit 1
-        ;;
-esac
+# Run main function
+main "$@"

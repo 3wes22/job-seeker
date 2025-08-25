@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Software Development",
+    "description": "Software engineering roles"
+  },
+  {
+    "name": "Data Science",
+    "description": "Data analysis and ML roles"
+  },
+  {
+    "name": "Design",
+    "description": "UI/UX and graphic design roles"
+  },
+  {
+    "name": "DevOps",
+    "description": "Infrastructure and deployment roles"
+  },
+  {
+    "name": "Management",
+    "description": "Product and project management roles"
+  },
+  {
+    "name": "Quality Assurance",
+    "description": "Testing and QA roles"
+  }
+]
