@@ -26,7 +26,7 @@ class Application(models.Model):
     ]
     
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='pending', help_text=_("Application status"))
-    cover_letter = models.TextField(blank=True, help_text=_("Cover letter"))
+    cover_letter = models.TextField(blank=True, null=True, help_text=_("Cover letter"))
     expected_salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, help_text=_("Expected salary"))
     availability_date = models.DateField(blank=True, null=True, help_text=_("Availability date"))
     

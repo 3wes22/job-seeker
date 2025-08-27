@@ -38,11 +38,91 @@ def application_detail(request, application_id):
 @permission_classes([IsAuthenticated])
 def application_create(request):
     """Create a new application"""
-    serializer = ApplicationSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(applicant_id=request.user.id)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        print(f"📝 Creating application for user {request.user.id}")
+        print(f"📤 Request data: {request.data}")
+        
+        # Validate required fields
+        required_fields = ['job_id', 'employer_id']
+        missing_fields = []
+        
+        for field in required_fields:
+            if field not in request.data or request.data[field] is None:
+                missing_fields.append(field)
+        
+        if missing_fields:
+            return Response({
+                'success': False,
+                'error': f'Missing required fields: {", ".join(missing_fields)}',
+                'details': {'missing_fields': missing_fields}
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Ensure proper data types
+        try:
+            job_id = int(request.data['job_id'])
+            employer_id = int(request.data['employer_id'])
+        except (ValueError, TypeError) as e:
+            return Response({
+                'success': False,
+                'error': 'Invalid data types for job_id or employer_id',
+                'details': {'job_id': request.data.get('job_id'), 'employer_id': request.data.get('employer_id')}
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if user has already applied for this job
+        if Application.objects.filter(job_id=job_id, applicant_id=request.user.id, is_active=True).exists():
+            return Response({
+                'success': False,
+                'error': 'You have already applied for this job',
+                'details': {'job_id': job_id}
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # TODO: Add job existence validation when job service is accessible
+        # For now, we'll assume the job exists since the frontend loaded it successfully
+        
+        # Prepare data for serializer
+        application_data = {
+            'job_id': job_id,
+            'employer_id': employer_id,
+            'cover_letter': request.data.get('cover_letter', ''),
+            'expected_salary': request.data.get('expected_salary'),
+            'availability_date': request.data.get('availability_date'),
+        }
+        
+        print(f"🔧 Prepared application data: {application_data}")
+        
+        # Create serializer with prepared data
+        serializer = ApplicationSerializer(data=application_data, context={'applicant_id': request.user.id})
+        
+        if serializer.is_valid():
+            # Create the application
+            application = serializer.save()
+            print(f"✅ Application created with ID: {application.id}")
+            
+            return Response({
+                'success': True,
+                'application_id': application.id,
+                'message': 'Application submitted successfully',
+                'data': serializer.data
+            }, status=status.HTTP_201_CREATED)
+        else:
+            print(f"❌ Validation errors: {serializer.errors}")
+            return Response({
+                'success': False,
+                'error': 'Validation failed',
+                'details': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+            
+    except Exception as e:
+        print(f"💥 Error creating application: {str(e)}")
+        print(f"💥 Error type: {type(e)}")
+        import traceback
+        print(f"💥 Traceback: {traceback.format_exc()}")
+        
+        return Response({
+            'success': False,
+            'error': f'Server error occurred: {str(e)}',
+            'details': {'error_type': str(type(e))}
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['PUT', 'PATCH'])
@@ -139,4 +219,53 @@ def interview_update(request, interview_id):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_application_status(request, job_id):
+    """Check if the current user has applied for a specific job"""
+    try:
+        print(f"🔍 Checking application status for job {job_id} by user {request.user.id}")
+        
+        application = Application.objects.get(
+            job_id=job_id,
+            applicant_id=request.user.id,
+            is_active=True
+        )
+        
+        print(f"✅ Found existing application: {application.id}")
+        return Response({
+            'has_applied': True,
+            'application_id': application.id,
+            'status': application.status,
+            'applied_at': application.created_at
+        })
+    except Application.DoesNotExist:
+        print(f"ℹ️ No existing application found for job {job_id}")
+        return Response({
+            'has_applied': False,
+            'application_id': None,
+            'status': None,
+            'applied_at': None
+        })
+    except Exception as e:
+        print(f"💥 Error checking application status: {str(e)}")
+        return Response(
+            {'message': f'Server error occurred: {str(e)}'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_applications(request):
+    """Get all applications for the current user"""
+    applications = Application.objects.filter(
+        applicant_id=request.user.id,
+        is_active=True
+    ).order_by('-created_at')
+    
+    serializer = ApplicationSerializer(applications, many=True)
+    return Response(serializer.data) 

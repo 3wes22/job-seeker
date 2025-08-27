@@ -14,8 +14,39 @@ if str(shared_path) not in sys.path:
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-local-dev-key-change-in-production')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Debug Configuration
 DEBUG = config('DEBUG', default=True, cast=bool)
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'DEBUG' if DEBUG else 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'propagate': False,
+        },
+        'rest_framework': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'propagate': False,
+        },
+    },
+}
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '10.0.2.2']
 
@@ -74,9 +105,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DB_NAME', default='applications_db'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default='postgres123'),
-        'HOST': config('DB_HOST', default='localhost'),
+        'USER': config('DB_USER', default='mohamed3wes'),  # Changed to system username for macOS
+        'PASSWORD': config('DB_PASSWORD', default=''),  # No password for local development
+        'HOST': config('DB_HOST', default='localhost'),  # Changed from postgres-applications to localhost
         'PORT': config('DB_PORT', default='5432'),
     }
 }
@@ -100,7 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Rest Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'applications.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -115,7 +146,13 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
+    'SIGNING_KEY': config('JWT_SECRET_KEY', default='django-insecure-jwt-secret-key-shared-across-services'),
 }
+
+# Ensure JWT secret key is set
+if not config('JWT_SECRET_KEY', default=None):
+    print("⚠️ Warning: JWT_SECRET_KEY not set, using default key")
+    print("⚠️ For production, set JWT_SECRET_KEY environment variable")
 
 # CORS Settings (for local development)
 CORS_ALLOW_ALL_ORIGINS = True

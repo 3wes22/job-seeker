@@ -24,17 +24,46 @@ class JobSkillSerializer(serializers.ModelSerializer):
 
 
 class JobSerializer(serializers.ModelSerializer):
-    company = serializers.PrimaryKeyRelatedField(
-        queryset=Company.objects.all(),
-        help_text="Company ID for this job"
-    )
-    categories = JobCategorySerializer(many=True, read_only=True)
-    skills = JobSkillSerializer(many=True, read_only=True)
+    company = serializers.CharField(source='company.name', read_only=True, help_text="Company name for this job")
+    # categories = JobCategorySerializer(many=True, read_only=True)  # Commented out - table doesn't exist
+    # skills = JobSkillSerializer(many=True, read_only=True)  # Commented out - table doesn't exist
+    salary_min = serializers.FloatField(read_only=True)
+    salary_max = serializers.FloatField(read_only=True)
     salary_range = serializers.ReadOnlyField()
+    
+    # Add employer field that returns a User object structure
+    employer = serializers.SerializerMethodField()
+    
+    # Add skills_required field that the Flutter app expects
+    skills_required = serializers.SerializerMethodField()
+    
+    def get_employer(self, obj):
+        # Return a basic user structure that the Flutter app expects
+        return {
+            'id': obj.employer_id,
+            'username': f'user_{obj.employer_id}',
+            'email': f'user{obj.employer_id}@example.com',
+            'user_type': 'employer'
+        }
+    
+    def get_skills_required(self, obj):
+        # Extract skills from requirements field and return as array
+        if obj.requirements:
+            # Split requirements by common delimiters and clean up
+            skills = obj.requirements.replace(',', ' ').replace(';', ' ').split()
+            # Filter out common words and keep technical terms
+            technical_skills = [skill.strip() for skill in skills if len(skill.strip()) > 2 and skill.strip().lower() not in ['and', 'the', 'for', 'with', 'experience', 'required', 'skills', 'knowledge']]
+            return technical_skills[:5]  # Return max 5 skills
+        return []
     
     class Meta:
         model = Job
-        fields = '__all__'
+        fields = [
+            'id', 'title', 'description', 'requirements', 'responsibilities',
+            'job_type', 'experience_level', 'location', 'is_remote',
+            'salary_min', 'salary_max', 'salary_currency', 'company',
+            'employer_id', 'employer', 'skills_required', 'created_at', 'updated_at', 'is_active', 'salary_range'
+        ]
         read_only_fields = ['created_at', 'updated_at', 'employer_id']
     
     def create(self, validated_data):

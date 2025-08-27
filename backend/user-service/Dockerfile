@@ -23,11 +23,11 @@ RUN if [ "$ENVIRONMENT" = "development" ]; then \
 # Copy application code
 COPY . .
 
-# Make the startup script executable
-RUN chmod +x start_with_kafka.sh
+# Make the startup scripts executable
+RUN chmod +x start_with_kafka.sh start_simple.sh
 
 # Expose port
 EXPOSE 8000
 
-# Run migrations and start server with Kafka consumer
-CMD ["./start_with_kafka.sh"]
+# Run migrations and start server without Kafka consumer (for testing)
+CMD ["./start_simple.sh"]

@@ -27,11 +27,10 @@ class JobSkillAdmin(admin.ModelAdmin):
 
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
-    list_display = ('title', 'company', 'employer_id', 'job_type', 'experience_level', 'location', 'is_active', 'created_at')
-    list_filter = ('job_type', 'experience_level', 'is_remote', 'is_active', 'created_at')
+    list_display = ('title', 'company', 'employer_id', 'job_type', 'experience_level', 'location', 'created_at')
+    list_filter = ('job_type', 'experience_level', 'is_remote', 'created_at')
     search_fields = ('title', 'description', 'requirements')
     ordering = ('-created_at',)
-    filter_horizontal = ('categories', 'skills')
 
 
 @admin.register(JobCategoryJob)

@@ -45,4 +45,4 @@ sentry-sdk==2.7.0                 # Error tracking (optional)
 
 # Performance
 django-debug-toolbar==4.3.0       # Development debugging
-django-cacheops==8.1.0            # Query caching
+django-cacheops==7.2              # Query caching

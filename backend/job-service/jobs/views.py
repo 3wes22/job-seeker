@@ -6,13 +6,54 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import Job, Company, JobCategory, JobSkill
 from .serializers import JobSerializer, CompanySerializer, JobCategorySerializer, JobSkillSerializer
+from django.db import models
 
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def job_list(request):
-    """List all jobs"""
-    jobs = Job.objects.filter(is_active=True)
+    """List all jobs with optional search and filtering"""
+    jobs = Job.objects.all()  # Removed is_active filter since field doesn't exist
+    
+    # Handle search query
+    search_query = request.GET.get('search', '').strip()
+    if search_query:
+        jobs = jobs.filter(
+            models.Q(title__icontains=search_query) |
+            models.Q(description__icontains=search_query) |
+            models.Q(location__icontains=search_query) |
+            models.Q(job_type__icontains=search_query) |
+            models.Q(experience_level__icontains=search_query)
+        )
+    
+    # Handle category filter
+    category = request.GET.get('category')
+    if category and category != 'all':
+        jobs = jobs.filter(categories__name__icontains=category)
+    
+    # Handle location filter
+    location = request.GET.get('location')
+    if location and location != 'all':
+        if location.lower() == 'remote':
+            jobs = jobs.filter(is_remote=True)
+        elif location.lower() == 'on-site':
+            jobs = jobs.filter(is_remote=False)
+        # elif location.lower() == 'hybrid':
+        #     jobs = jobs.filter(remote_type='hybrid')
+    
+    # Handle experience level filter
+    experience = request.GET.get('experience')
+    if experience and experience != 'all':
+        jobs = jobs.filter(experience_level__icontains=experience)
+    
+    # Handle employment type filter
+    employment_type = request.GET.get('employment_type')
+    if employment_type and employment_type != 'all':
+        jobs = jobs.filter(job_type__icontains=employment_type)
+    
+    # Order by creation date (newest first)
+    jobs = jobs.order_by('-created_at')
+    
     serializer = JobSerializer(jobs, many=True)
     return Response(serializer.data)
 
@@ -21,7 +62,7 @@ def job_list(request):
 @permission_classes([AllowAny])
 def job_detail(request, job_id):
     """Get job details"""
-    job = get_object_or_404(Job, id=job_id, is_active=True)
+    job = get_object_or_404(Job, id=job_id)  # Removed is_active filter
     serializer = JobSerializer(job)
     return Response(serializer.data)
 

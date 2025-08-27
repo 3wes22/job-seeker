@@ -16,4 +16,8 @@ urlpatterns = [
     path('<int:application_id>/interviews/create/', views.interview_create, name='interview_create'),
     path('interviews/<int:interview_id>/', views.interview_detail, name='interview_detail'),
     path('interviews/<int:interview_id>/update/', views.interview_update, name='interview_update'),
+    
+    # Application status endpoints
+    path('check-status/<int:job_id>/', views.check_application_status, name='check_application_status'),
+    path('my-applications/', views.user_applications, name='user_applications'),
 ] 

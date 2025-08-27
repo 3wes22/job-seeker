@@ -487,16 +487,16 @@ class Job(models.Model):
         help_text="Whether the job allows remote work"
     )
     
-    remote_type = models.CharField(
-        max_length=20,
-        choices=[
-            ('on_site', 'On Site'),
-            ('remote', 'Remote'),
-            ('hybrid', 'Hybrid'),
-        ],
-        default='on_site',
-        help_text="Type of work arrangement"
-    )
+    # remote_type = models.CharField(
+    #     max_length=20,
+    #     choices=[
+    #         ('on_site', 'On Site'),
+    #         ('remote', 'Remote'),
+    #         ('hybrid', 'Hybrid'),
+    #     ],
+    #     default='on_site',
+    #     help_text="Type of work arrangement"
+    # )
     
     # Salary Information
     salary_min = models.DecimalField(
@@ -522,35 +522,28 @@ class Job(models.Model):
     )
     
     # Application Management
-    application_deadline = models.DateTimeField(
-        blank=True,
-        null=True,
-        help_text="Deadline for job applications"
-    )
+    # application_deadline = models.DateTimeField(
+    #     blank=True,
+    #     null=True,
+    #     help_text="Deadline for job applications"
+    # )
     
-    max_applications = models.PositiveIntegerField(
-        blank=True,
-        null=True,
-        help_text="Maximum number of applications allowed"
-    )
+    # max_applications = models.PositiveIntegerField(
+    #     blank=True,
+    #     null=True,
+    #     help_text="Maximum number of applications allowed"
+    # )
     
     # Job Status and Visibility
-    status = models.CharField(
-        max_length=20,
-        choices=JOB_STATUS_CHOICES,
-        default='draft',
-        help_text="Current status of the job posting"
-    )
-    
     is_active = models.BooleanField(
         default=True,
         help_text="Whether the job is visible to job seekers"
     )
     
-    is_featured = models.BooleanField(
-        default=False,
-        help_text="Whether the job is featured/promoted"
-    )
+    # is_featured = models.BooleanField(
+    #     default=False,
+    #     help_text="Whether the job is featured/promoted"
+    # )
     
     # ========================================================================
     # RELATIONSHIPS - Links to other models
@@ -589,16 +582,16 @@ class Job(models.Model):
     # ========================================================================
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    published_at = models.DateTimeField(
-        blank=True,
-        null=True,
-        help_text="When the job was published/activated"
-    )
-    expires_at = models.DateTimeField(
-        blank=True,
-        null=True,
-        help_text="When the job posting expires"
-    )
+    # published_at = models.DateTimeField(
+    #     blank=True,
+    #     null=True,
+    #     help_text="When the job was published/activated"
+    # )
+    # expires_at = models.DateTimeField(
+    #     blank=True,
+    #     null=True,
+    #     help_text="When the job posting expires"
+    # )
 
     # ========================================================================
     # META CONFIGURATION
@@ -609,7 +602,7 @@ class Job(models.Model):
         verbose_name_plural = 'Jobs'
         ordering = ['-created_at']
         indexes = [
-            models.Index(fields=['status', 'is_active']),
+            # models.Index(fields=['status', 'is_active']),
             models.Index(fields=['location']),
             models.Index(fields=['job_type']),
             models.Index(fields=['experience_level']),
@@ -662,11 +655,12 @@ class Job(models.Model):
         RETURNS: Boolean indicating if applications are accepted
         """
         return (
-            self.status == 'active' and
+            # self.status == 'active' and
             self.is_active and
             not self.is_expired and
-            (self.max_applications is None or 
-             self.applications.count() < self.max_applications)
+            # (self.max_applications is None or 
+            #  self.applications.count() < self.max_applications)
+            True
         )
 
     @property
@@ -690,9 +684,9 @@ class Job(models.Model):
         USAGE: job.activate() # make job visible to job seekers
         SIDE EFFECTS: Updates status, published_at, and is_active
         """
-        self.status = 'active'
+        # self.status = 'active'
         self.is_active = True
-        self.published_at = timezone.now()
+        # self.published_at = timezone.now()
         self.save()
 
     def pause(self):
@@ -702,7 +696,7 @@ class Job(models.Model):
         USAGE: job.pause() # temporarily hide job from job seekers
         SIDE EFFECTS: Updates status and is_active
         """
-        self.status = 'paused'
+        # self.status = 'paused'
         self.is_active = False
         self.save()
 
@@ -713,7 +707,7 @@ class Job(models.Model):
         USAGE: job.close() # stop accepting new applications
         SIDE EFFECTS: Updates status and is_active
         """
-        self.status = 'closed'
+        # self.status = 'closed'
         self.is_active = False
         self.save()
 
@@ -724,7 +718,7 @@ class Job(models.Model):
         USAGE: job.fill() # indicate position has been filled
         SIDE EFFECTS: Updates status and is_active
         """
-        self.status = 'filled'
+        # self.status = 'filled'
         self.is_active = False
         self.save()
 

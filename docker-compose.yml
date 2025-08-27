@@ -153,6 +153,8 @@ services:
   # Microservices
   user-service:
     build: ./backend/user-service
+    ports:
+      - "8001:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres123@postgres-users:5432/users_db
       - REDIS_URL=redis://redis:6379/0
@@ -168,6 +170,8 @@ services:
 
   job-service:
     build: ./backend/job-service
+    ports:
+      - "8002:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres123@postgres-jobs:5432/jobs_db
       - USER_SERVICE_URL=http://user-service:8000
@@ -183,6 +187,8 @@ services:
 
   application-service:
     build: ./backend/application-service
+    ports:
+      - "8003:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres123@postgres-applications:5432/applications_db
       - USER_SERVICE_URL=http://user-service:8000

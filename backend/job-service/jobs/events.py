@@ -25,8 +25,8 @@ class JobEventPublisher:
                 job_id=job.id,
                 title=job.title,
                 company_id=job.company.id,
-                employer_id=job.employer.id,
-                job_type=job.employment_type,
+                employer_id=job.employer_id,
+                job_type=job.job_type,
                 location=job.location,
                 is_remote=job.is_remote,
                 salary_min=float(job.salary_min) if job.salary_min else None,
@@ -57,7 +57,7 @@ class JobEventPublisher:
                 job_id=job.id,
                 title=job.title,
                 company_id=job.company.id,
-                employer_id=job.employer.id,
+                employer_id=job.employer_id,
                 changes=changes or {}
             )
             
@@ -105,7 +105,7 @@ class JobEventPublisher:
                 'job_id': job.id,
                 'title': job.title,
                 'company_id': job.company.id,
-                'employer_id': job.employer.id,
+                'employer_id': job.employer_id,
                 'old_status': old_status,
                 'new_status': new_status,
                 'status_changed_at': timezone.now().isoformat()
@@ -131,7 +131,7 @@ class JobEventPublisher:
                 'job_id': job.id,
                 'title': job.title,
                 'company_id': job.company.id,
-                'employer_id': job.employer.id,
+                'employer_id': job.employer_id,
                 'application_count': application_count,
                 'max_applications': job.max_applications,
                 'received_at': timezone.now().isoformat()
