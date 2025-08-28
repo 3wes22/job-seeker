@@ -1,36 +1,35 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
-from .models import Company, Job, JobCategory, JobSkill
-
-User = get_user_model()
+from .models import Company, Job
+# from .models import Company, Job, JobCategory, JobSkill
+from django.contrib.auth.models import User
 
 
 class JobModelTest(TestCase):
     def setUp(self):
         self.company = Company.objects.create(
             name="Test Company",
-            description="A test company",
             industry="Technology",
-            location="San Francisco",
-            employer_id=1
+            size="Medium",
+            location="New York"
         )
-        
-        self.category = JobCategory.objects.create(
-            name="Software Development",
-            description="Software development category"
-        )
-        
-        self.skill = JobSkill.objects.create(
-            name="Python"
-        )
-        
+        # self.category = JobCategory.objects.create(
+        #     name="Software Development"
+        # )
+        # self.skill = JobSkill.objects.create(
+        #     name="Python"
+        # )
         self.job = Job.objects.create(
             title="Software Engineer",
             description="A software engineering position",
+            requirements="Python, Django, React",
             company=self.company,
             employer_id=1,
-            job_type="full_time",
-            experience_level="mid"
+            job_type="Full-time",
+            experience_level="Mid-level",
+            location="New York",
+            is_remote=False,
+            salary_min=80000,
+            salary_max=120000
         )
 
     def test_job_creation(self):

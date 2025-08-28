@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-08-28T06:18:39.329157",
+  "results": {
+    "service_health": {
+      "user": "FAIL",
+      "job": "FAIL",
+      "application": "FAIL"
+    },
+    "api_endpoints": {
+      "user_registration": "FAIL",
+      "user_login": "FAIL",
+      "job_list": "PASS",
+      "job_detail": "PASS"
+    },
+    "authentication": {},
+    "data_flow": {
+      "data_consistency": "FAIL"
+    },
+    "performance": {}
+  },
+  "summary": {
+    "total_tests": 8,
+    "passed_tests": 2,
+    "failed_tests": 0,
+    "warning_tests": 0,
+    "success_rate": 25.0
+  }
+}

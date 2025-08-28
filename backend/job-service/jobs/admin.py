@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Company, Job, JobCategory, JobSkill, JobCategoryJob, JobSkillJob
+from .models import Company, Job
+# from .models import Company, Job, JobCategory, JobSkill, JobCategoryJob, JobSkillJob
 
 
 @admin.register(Company)
@@ -10,19 +11,19 @@ class CompanyAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
 
 
-@admin.register(JobCategory)
-class JobCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'parent', 'created_at')
-    list_filter = ('parent', 'created_at')
-    search_fields = ('name', 'description')
-    ordering = ('name',)
+# @admin.register(JobCategory)
+# class JobCategoryAdmin(admin.ModelAdmin):
+#     list_display = ('name', 'parent', 'created_at')
+#     list_filter = ('parent', 'created_at')
+#     search_fields = ('name', 'description')
+#     ordering = ('name',)
 
 
-@admin.register(JobSkill)
-class JobSkillAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created_at')
-    search_fields = ('name',)
-    ordering = ('name',)
+# @admin.register(JobSkill)
+# class JobSkillAdmin(admin.ModelAdmin):
+#     list_display = ('name', 'created_at')
+#     search_fields = ('name',)
+#     ordering = ('name',)
 
 
 @admin.register(Job)
@@ -33,15 +34,15 @@ class JobAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
 
 
-@admin.register(JobCategoryJob)
-class JobCategoryJobAdmin(admin.ModelAdmin):
-    list_display = ('job', 'category')
-    list_filter = ('category',)
-    search_fields = ('job__title', 'category__name')
+# @admin.register(JobCategoryJob)
+# class JobCategoryJobAdmin(admin.ModelAdmin):
+#     list_display = ('job', 'category')
+#     list_filter = ('category',)
+#     search_fields = ('job__title', 'category__name')
 
 
-@admin.register(JobSkillJob)
-class JobSkillJobAdmin(admin.ModelAdmin):
-    list_display = ('job', 'skill', 'is_required')
-    list_filter = ('is_required', 'skill')
-    search_fields = ('job__title', 'skill__name') 
+# @admin.register(JobSkillJob)
+# class JobSkillJobAdmin(admin.ModelAdmin):
+#     list_display = ('job', 'skill', 'is_required')
+#     list_filter = ('is_required', 'skill')
+#     search_fields = ('job__title', 'skill__name') 

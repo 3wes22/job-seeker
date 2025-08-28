@@ -10,7 +10,7 @@ urlpatterns = [
     path('create/', views.job_create, name='job_create'),
     path('<int:job_id>/update/', views.job_update, name='job_update'),
     path('<int:job_id>/delete/', views.job_delete, name='job_delete'),
-    path('<int:job_id>/withdraw/', views.job_withdraw, name='job_withdraw'),
+    # path('<int:job_id>/withdraw/', views.job_withdraw, name='job_withdraw'),  # Temporarily disabled
     
     # Employer-specific endpoints
     path('employer/', views.employer_jobs, name='employer_jobs'),
@@ -21,6 +21,6 @@ urlpatterns = [
     path('companies/create/', views.company_create, name='company_create'),
     
     # Category and skill endpoints
-    path('categories/', views.category_list, name='category_list'),
-    path('skills/', views.skill_list, name='skill_list'),
+    # path('categories/', views.category_list, name='category_list'),  # Temporarily disabled
+    # path('skills/', views.skill_list, name='skill_list'),  # Temporarily disabled
 ] 

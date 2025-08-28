@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-08-28T06:21:30.242996",
+  "results": {
+    "service_health": {
+      "user": "FAIL",
+      "job": "FAIL",
+      "application": "FAIL"
+    },
+    "api_endpoints": {
+      "user_registration": "PASS",
+      "user_login": "PASS",
+      "user_profile": "PASS",
+      "job_list": "PASS",
+      "job_detail": "PASS",
+      "application_status_check": "PASS",
+      "application_creation": "PASS",
+      "user_applications_list": "PASS"
+    },
+    "authentication": {
+      "token_validation": "PASS",
+      "token_refresh": "PASS",
+      "invalid_token_rejection": "PASS"
+    },
+    "data_flow": {
+      "data_consistency": "PASS"
+    },
+    "performance": {}
+  },
+  "summary": {
+    "total_tests": 15,
+    "passed_tests": 12,
+    "failed_tests": 0,
+    "warning_tests": 0,
+    "success_rate": 80.0
+  }
+}

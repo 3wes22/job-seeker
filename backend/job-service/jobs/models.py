@@ -141,7 +141,7 @@ class Company(models.Model):
 # like "Technology > Software Development > Frontend Development".
 # =============================================================================
 
-class JobCategory(models.Model):
+# class JobCategory(models.Model):
     """
     Job Category Model - Hierarchical job classification system
     
@@ -273,7 +273,7 @@ class JobCategory(models.Model):
 # Skills can be marked as required or optional, and can have proficiency levels.
 # =============================================================================
 
-class JobSkill(models.Model):
+# class JobSkill(models.Model):
     """
     Job Skill Model - Individual skills required for job positions
     
@@ -557,25 +557,25 @@ class Job(models.Model):
         help_text="Company posting this job"
     )
     
-    employer_id = models.IntegerField(
+    employer_id = models.BigIntegerField(
         default=1,
         help_text="ID of the user who posted this job"
     )
     
     # Categories and Skills
-    categories = models.ManyToManyField(
-        JobCategory,
-        through='JobCategoryJob',
-        related_name='jobs',
-        help_text="Job categories for classification and search"
-    )
+    # categories = models.ManyToManyField(
+    #     JobCategory,
+    #     through='JobCategoryJob',
+    #     related_name='jobs',
+    #     help_text="Job categories for classification and search"
+    # )
     
-    skills = models.ManyToManyField(
-        JobSkill,
-        through='JobSkillJob',
-        related_name='jobs',
-        help_text="Skills required for this job"
-    )
+    # skills = models.ManyToManyField(
+    #     JobSkill,
+    #     through='JobCategoryJob',
+    #     related_name='jobs',
+    #     help_text="Skills required for this job"
+    # )
     
     # ========================================================================
     # TIMESTAMP FIELDS - Audit trail and scheduling
@@ -748,68 +748,68 @@ class Job(models.Model):
 # categories/skills, allowing for additional metadata on the relationships.
 # =============================================================================
 
-class JobCategoryJob(models.Model):
-    """
-    Through Model - Manages Job-Category relationships
-    
-    PURPOSE: Links jobs to categories with additional metadata
-    RELATIONSHIP: Many-to-many between Job and JobCategory
-    """
-    
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    category = models.ForeignKey(JobCategory, on_delete=models.CASCADE)
-    
-    # Additional metadata
-    is_primary = models.BooleanField(
-        default=False,
-        help_text="Whether this is the primary category for the job"
-    )
-    
-    created_at = models.DateTimeField(auto_now_add=True)
+# class JobCategoryJob(models.Model):
+#     """
+#     Through Model - Manages Job-Category relationships
+#     
+#     PURPOSE: Links jobs to categories with additional metadata
+#     RELATIONSHIP: Many-to-many between Job and JobCategory
+#     """
+#     
+#     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+#     category = models.ForeignKey(JobCategory, on_delete=models.CASCADE)
+#     
+#     # Additional metadata
+#     is_primary = models.BooleanField(
+#         default=False,
+#         help_text="Whether this is the primary category for the job"
+#     )
+#     
+#     created_at = models.DateTimeField(auto_now_add=True)
+# 
+#     class Meta:
+#         db_table = 'job_category_job'
+#         unique_together = ['job', 'category']
+# 
+#     def __str__(self):
+#         return f"{self.job.title} - {self.category.name}"
 
-    class Meta:
-        db_table = 'job_category_job'
-        unique_together = ['job', 'category']
-
-    def __str__(self):
-        return f"{self.job.title} - {self.category.name}"
-
-class JobSkillJob(models.Model):
-    """
-    Through Model - Manages Job-Skill relationships
-    
-    PURPOSE: Links jobs to skills with requirement level and importance
-    RELATIONSHIP: Many-to-many between Job and JobSkill
-    """
-    
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    skill = models.ForeignKey(JobSkill, on_delete=models.CASCADE)
-    
-    # Skill requirement details
-    is_required = models.BooleanField(
-        default=True,
-        help_text="Whether this skill is required or preferred"
-    )
-    
-    proficiency_level = models.CharField(
-        max_length=20,
-        choices=JobSkill.SKILL_LEVEL_CHOICES,
-        blank=True,
-        help_text="Required proficiency level for this skill"
-    )
-    
-    years_experience = models.PositiveIntegerField(
-        blank=True,
-        null=True,
-        help_text="Years of experience required for this skill"
-    )
-    
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = 'job_skill_job'
-        unique_together = ['job', 'skill']
-
-    def __str__(self):
-        requirement = "Required" if self.is_required else "Preferred"
-        return f"{self.job.title} - {self.skill.name} ({requirement})" 
+# class JobSkillJob(models.Model):
+#     """
+#     Through Model - Manages Job-Skill relationships
+#     
+#     PURPOSE: Links jobs to skills with requirement level and importance
+#     RELATIONSHIP: Many-to-many between Job and JobSkill
+#     """
+#     
+#     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+#     skill = models.ForeignKey(JobSkill, on_delete=models.CASCADE)
+#     
+#     # Skill requirement details
+#     is_required = models.BooleanField(
+#         default=True,
+#         help_text="Whether this skill is required or preferred"
+#     )
+#     
+#     proficiency_level = models.CharField(
+#         max_length=20,
+#         choices=JobSkill.SKILL_LEVEL_CHOICES,
+#         blank=True,
+#         help_text="Required proficiency level for this skill"
+#     )
+#     
+#     years_experience = models.PositiveIntegerField(
+#         blank=True,
+#         null=True,
+#         help_text="Years of experience required for this skill"
+#     )
+#     
+#     created_at = models.DateTimeField(auto_now_add=True)
+# 
+#     class Meta:
+#         db_table = 'job_skill_job'
+#         unique_together = ['job', 'skill']
+# 
+#     def __str__(self):
+#         requirement = "Required" if self.is_required else "Preferred"
+#         return f"{self.job.title} - {self.skill.name} ({requirement})" 

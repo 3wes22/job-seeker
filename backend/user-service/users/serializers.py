@@ -21,6 +21,12 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop('password_confirm')
         password = validated_data.pop('password')
+        
+        # Set default values for required fields
+        validated_data.setdefault('bio', '')
+        validated_data.setdefault('first_name', '')
+        validated_data.setdefault('last_name', '')
+        
         user = User.objects.create_user(password=password, **validated_data)
         return user
 

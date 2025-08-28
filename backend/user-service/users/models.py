@@ -64,10 +64,11 @@ class User(AbstractUser):
     
     # Self Description
     bio = models.TextField(
-        blank=True, 
+        max_length=1000,
+        blank=True,
         null=True,
-        max_length=500,
-        help_text="User's self-description and professional summary"
+        default="",
+        help_text="User's biography or description"
     )
     
     # Role Classification
