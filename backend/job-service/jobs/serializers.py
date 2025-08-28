@@ -25,7 +25,8 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class JobSerializer(serializers.ModelSerializer):
     company = serializers.CharField(source='company.name', read_only=True)
-    company_id = serializers.IntegerField(write_only=True)
+    # Flexible field that accepts both 'company' and 'company_id' from Flutter
+    company_id = serializers.IntegerField(write_only=True, required=False)
     # categories = JobCategorySerializer(many=True, read_only=True)  # Commented out - table doesn't exist
     # skills = JobSkillSerializer(many=True, read_only=True)  # Commented out - table doesn't exist
     salary_min = serializers.FloatField(read_only=True)
@@ -42,6 +43,9 @@ class JobSerializer(serializers.ModelSerializer):
             'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
+        extra_kwargs = {
+            'company_id': {'source': 'company_id', 'write_only': True},
+        }
     
     def get_employer(self, obj):
         """Return a dummy employer object structure for Flutter compatibility"""
@@ -86,6 +90,11 @@ class JobSerializer(serializers.ModelSerializer):
         """Validate job data"""
         errors = {}
         
+        # Handle field mapping for Flutter compatibility
+        if 'company' in attrs and 'company_id' not in attrs:
+            attrs['company_id'] = attrs.pop('company')
+            print(f"🔧 Field mapping: 'company' -> 'company_id': {attrs['company_id']}")
+        
         # Validate salary range
         salary_min = attrs.get('salary_min')
         salary_max = attrs.get('salary_max')
@@ -93,8 +102,8 @@ class JobSerializer(serializers.ModelSerializer):
         if salary_min and salary_max and salary_min > salary_max:
             errors['salary_range'] = 'Minimum salary cannot be greater than maximum salary'
         
-        # Validate required fields
-        required_fields = ['title', 'description', 'company_id', 'employer_id']
+        # Validate required fields - only company_id is truly required
+        required_fields = ['title', 'description', 'company_id']
         for field in required_fields:
             if not attrs.get(field):
                 errors[field] = f'{field.replace("_", " ").title()} is required'
@@ -151,3 +160,13 @@ class JobSerializer(serializers.ModelSerializer):
                 print(f"Warning: Could not add skills: {e}")
         
         return job 
+
+    def to_internal_value(self, data):
+        """Handle field mapping for Flutter compatibility"""
+        # Map 'company' to 'company_id' if present
+        if 'company' in data and 'company_id' not in data:
+            data = data.copy()
+            data['company_id'] = data.pop('company')
+            print(f"🔧 Field mapping in to_internal_value: 'company' -> 'company_id': {data['company_id']}")
+        
+        return super().to_internal_value(data) 

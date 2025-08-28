@@ -28,6 +28,11 @@ class ApplicationSerializer(serializers.ModelSerializer):
     interviews = InterviewSerializer(many=True, read_only=True)
     status_history = ApplicationStatusHistorySerializer(many=True, read_only=True)
     
+    # Custom fields to handle null values for Flutter compatibility
+    cover_letter = serializers.SerializerMethodField()
+    expected_salary = serializers.SerializerMethodField()
+    availability_date = serializers.SerializerMethodField()
+    
     class Meta:
         model = Application
         fields = [
@@ -37,6 +42,18 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'attachments', 'interviews', 'status_history'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at', 'applicant_id', 'status', 'is_active']
+    
+    def get_cover_letter(self, obj):
+        """Return cover_letter or empty string if null"""
+        return obj.cover_letter if obj.cover_letter is not None else ""
+    
+    def get_expected_salary(self, obj):
+        """Return expected_salary or empty string if null"""
+        return str(obj.expected_salary) if obj.expected_salary is not None else ""
+    
+    def get_availability_date(self, obj):
+        """Return availability_date or empty string if null"""
+        return obj.availability_date.isoformat() if obj.availability_date is not None else ""
     
     def validate(self, attrs):
         # Ensure proper data types for numeric fields

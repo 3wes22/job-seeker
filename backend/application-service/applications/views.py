@@ -11,27 +11,63 @@ from .serializers import ApplicationSerializer, InterviewSerializer
 @permission_classes([IsAuthenticated])
 def application_list(request):
     """List applications for the current user"""
-    if request.user.user_type == 'employer':
-        applications = Application.objects.filter(employer_id=request.user.id)
-    else:
-        applications = Application.objects.filter(applicant_id=request.user.id)
-    
-    serializer = ApplicationSerializer(applications, many=True)
-    return Response(serializer.data)
+    try:
+        # Extract user info from JWT token
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        user_type = getattr(request.user, 'user_type', None)
+        
+        # If user_type is not available, try to determine from the request context
+        # For now, we'll assume employer if we can't determine the type
+        if not user_type:
+            # Try to get user_type from the JWT payload or request headers
+            # This is a fallback - ideally the JWT should contain user_type
+            user_type = 'employer'  # Default fallback for now
+        
+        print(f"🔍 Application list request - User ID: {user_id}, User Type: {user_type}")
+        
+        if user_type == 'employer':
+            applications = Application.objects.filter(employer_id=user_id)
+        else:
+            applications = Application.objects.filter(applicant_id=user_id)
+        
+        serializer = ApplicationSerializer(applications, many=True)
+        return Response(serializer.data)
+        
+    except Exception as e:
+        print(f"💥 Error in application_list: {str(e)}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def application_detail(request, application_id):
     """Get application details"""
-    application = get_object_or_404(Application, id=application_id)
-    
-    # Check if user has permission to view this application
-    if request.user.id not in [application.applicant_id, application.employer_id]:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    
-    serializer = ApplicationSerializer(application)
-    return Response(serializer.data)
+    try:
+        application = get_object_or_404(Application, id=application_id)
+        
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if user has permission to view this application
+        if user_id not in [application.applicant_id, application.employer_id]:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        
+        serializer = ApplicationSerializer(application)
+        return Response(serializer.data)
+        
+    except Exception as e:
+        print(f"💥 Error in application_detail: {str(e)}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['POST'])
@@ -39,7 +75,15 @@ def application_detail(request, application_id):
 def application_create(request):
     """Create a new application"""
     try:
-        print(f"📝 Creating application for user {request.user.id}")
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'success': False,
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        print(f"📝 Creating application for user {user_id}")
         print(f"📤 Request data: {request.data}")
         
         # Validate required fields
@@ -69,7 +113,7 @@ def application_create(request):
             }, status=status.HTTP_400_BAD_REQUEST)
         
         # Check if user has already applied for this job
-        if Application.objects.filter(job_id=job_id, applicant_id=request.user.id, is_active=True).exists():
+        if Application.objects.filter(job_id=job_id, applicant_id=user_id, is_active=True).exists():
             return Response({
                 'success': False,
                 'error': 'You have already applied for this job',
@@ -91,7 +135,7 @@ def application_create(request):
         print(f"🔧 Prepared application data: {application_data}")
         
         # Create serializer with prepared data
-        serializer = ApplicationSerializer(data=application_data, context={'applicant_id': request.user.id})
+        serializer = ApplicationSerializer(data=application_data, context={'applicant_id': user_id})
         
         if serializer.is_valid():
             # Create the application
@@ -129,97 +173,187 @@ def application_create(request):
 @permission_classes([IsAuthenticated])
 def application_update(request, application_id):
     """Update an application"""
-    application = get_object_or_404(Application, id=application_id)
-    
-    # Check if user has permission to update this application
-    if request.user.id not in [application.applicant_id, application.employer_id]:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    
-    serializer = ApplicationSerializer(application, data=request.data, partial=request.method == 'PATCH')
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        application = get_object_or_404(Application, id=application_id)
+        
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if user has permission to update this application
+        if user_id not in [application.applicant_id, application.employer_id]:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        
+        serializer = ApplicationSerializer(application, data=request.data, partial=request.method == 'PATCH')
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    except Exception as e:
+        print(f"💥 Error in application_update: {str(e)}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def application_delete(request, application_id):
     """Delete an application"""
-    application = get_object_or_404(Application, id=application_id)
-    
-    # Check if user has permission to delete this application
-    if request.user.id != application.applicant_id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    
-    application.is_active = False
-    application.save()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    try:
+        application = get_object_or_404(Application, id=application_id)
+        
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if user has permission to delete this application
+        if user_id != application.applicant_id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        
+        application.is_active = False
+        application.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
+    except Exception as e:
+        print(f"💥 Error in application_delete: {str(e)}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def interview_list(request, application_id):
     """List interviews for an application"""
-    application = get_object_or_404(Application, id=application_id)
-    
-    # Check if user has permission to view interviews
-    if request.user.id not in [application.applicant_id, application.employer_id]:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    
-    interviews = Interview.objects.filter(application=application)
-    serializer = InterviewSerializer(interviews, many=True)
-    return Response(serializer.data)
+    try:
+        application = get_object_or_404(Application, id=application_id)
+        
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if user has permission to view interviews
+        if user_id not in [application.applicant_id, application.employer_id]:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        
+        interviews = Interview.objects.filter(application=application)
+        serializer = InterviewSerializer(interviews, many=True)
+        return Response(serializer.data)
+        
+    except Exception as e:
+        print(f"💥 Error in interview_list: {str(e)}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def interview_create(request, application_id):
     """Create a new interview"""
-    application = get_object_or_404(Application, id=application_id)
-    
-    # Check if user has permission to create interviews
-    if request.user.id != application.employer_id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    
-    serializer = InterviewSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(application=application)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        application = get_object_or_404(Application, id=application_id)
+        
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if user has permission to create interviews
+        if user_id != application.employer_id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        
+        serializer = InterviewSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(application=application)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    except Exception as e:
+        print(f"💥 Error in interview_create: {str(e)}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def interview_detail(request, interview_id):
     """Get interview details"""
-    interview = get_object_or_404(Interview, id=interview_id)
-    application = interview.application
-    
-    # Check if user has permission to view this interview
-    if request.user.id not in [application.applicant_id, application.employer_id]:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    
-    serializer = InterviewSerializer(interview)
-    return Response(serializer.data)
+    try:
+        interview = get_object_or_404(Interview, id=interview_id)
+        application = interview.application
+        
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if user has permission to view this interview
+        if user_id not in [application.applicant_id, application.employer_id]:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        
+        serializer = InterviewSerializer(interview)
+        return Response(serializer.data)
+        
+    except Exception as e:
+        print(f"💥 Error in interview_detail: {str(e)}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['PUT', 'PATCH'])
 @permission_classes([IsAuthenticated])
 def interview_update(request, interview_id):
     """Update an interview"""
-    interview = get_object_or_404(Interview, id=interview_id)
-    application = interview.application
-    
-    # Check if user has permission to update this interview
-    if request.user.id != application.employer_id:
-        return Response(status=status.HTTP_403_FORBIDDEN)
-    
-    serializer = InterviewSerializer(interview, data=request.data, partial=request.method == 'PATCH')
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        interview = get_object_or_404(Interview, id=interview_id)
+        application = interview.application
+        
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if user has permission to update this interview
+        if user_id != application.employer_id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        
+        serializer = InterviewSerializer(interview, data=request.data, partial=request.method == 'PATCH')
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    except Exception as e:
+        print(f"💥 Error in interview_update: {str(e)}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])
@@ -227,11 +361,18 @@ def interview_update(request, interview_id):
 def check_application_status(request, job_id):
     """Check if the current user has applied for a specific job"""
     try:
-        print(f"🔍 Checking application status for job {job_id} by user {request.user.id}")
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        print(f"🔍 Checking application status for job {job_id} by user {user_id}")
         
         application = Application.objects.get(
             job_id=job_id,
-            applicant_id=request.user.id,
+            applicant_id=user_id,
             is_active=True
         )
         
@@ -262,10 +403,25 @@ def check_application_status(request, job_id):
 @permission_classes([IsAuthenticated])
 def user_applications(request):
     """Get all applications for the current user"""
-    applications = Application.objects.filter(
-        applicant_id=request.user.id,
-        is_active=True
-    ).order_by('-created_at')
-    
-    serializer = ApplicationSerializer(applications, many=True)
-    return Response(serializer.data) 
+    try:
+        # Safely extract user_id
+        user_id = request.user.id if hasattr(request.user, 'id') else None
+        if user_id is None:
+            return Response({
+                'error': 'User ID not available'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        applications = Application.objects.filter(
+            applicant_id=user_id,
+            is_active=True
+        ).order_by('-created_at')
+        
+        serializer = ApplicationSerializer(applications, many=True)
+        return Response(serializer.data)
+        
+    except Exception as e:
+        print(f"💥 Error in user_applications: {str(e)}")
+        return Response({
+            'error': 'Internal server error',
+            'details': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
