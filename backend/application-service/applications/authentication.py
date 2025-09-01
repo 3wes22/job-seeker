@@ -26,20 +26,35 @@ class JWTAuthentication(authentication.BaseAuthentication):
         token = auth_header.split(' ')[1]
         
         try:
-            # Decode and validate the JWT token
+            # CRITICAL FIX: Use proper JWT library and extract all required fields
             payload = jwt.decode(
                 token, 
                 settings.SIMPLE_JWT['SIGNING_KEY'], 
                 algorithms=['HS256']
             )
             
-            # Create a simple user object with the user_id from the token
-            user_id = payload.get('user_id')
+            # CRITICAL FIX: Extract required fields with fallbacks for compatibility
+            # Try custom fields first, then fall back to standard JWT fields
+            user_id = payload.get('user_id') or payload.get('sub')
+            user_type = payload.get('user_type') or payload.get('type') or 'unknown'
+            username = payload.get('username') or payload.get('name') or ''
+            email = payload.get('email') or ''
+            
             if not user_id:
-                raise exceptions.AuthenticationFailed('Invalid token payload')
+                raise exceptions.AuthenticationFailed('Invalid token payload: missing user_id/sub')
                 
-            # Create a simple user object
-            user = SimpleUser(user_id)
+            # CRITICAL FIX: Don't require user_type for now to maintain compatibility
+            if not user_type or user_type == 'unknown':
+                print(f"⚠️ Warning: user_type not found in token for user {user_id}, using 'unknown'")
+                user_type = 'unknown'
+                
+            # Create a simple user object with all required fields
+            user = SimpleUser(
+                user_id=user_id,
+                user_type=user_type,
+                username=username,
+                email=email
+            )
             
             return (user, token)
             
@@ -60,10 +75,13 @@ class SimpleUser:
     This provides the minimum interface needed for DRF permissions.
     """
     
-    def __init__(self, user_id):
+    def __init__(self, user_id, user_type, username='', email=''):
         self.id = user_id
+        self.user_type = user_type
+        self.username = username
+        self.email = email
         self.is_authenticated = True
         self.is_anonymous = False
         
     def __str__(self):
-        return f"User {self.id}"
+        return f"User {self.id} ({self.user_type})"

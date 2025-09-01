@@ -12,16 +12,46 @@ from .serializers import ApplicationSerializer, InterviewSerializer
 def application_list(request):
     """List applications for the current user"""
     try:
-        # Extract user info from JWT token
-        user_id = request.user.id if hasattr(request.user, 'id') else None
+        # CRITICAL FIX: Get user info from authenticated user object
+        user_id = request.user.id
         user_type = getattr(request.user, 'user_type', None)
         
-        # If user_type is not available, try to determine from the request context
-        # For now, we'll assume employer if we can't determine the type
-        if not user_type:
-            # Try to get user_type from the JWT payload or request headers
-            # This is a fallback - ideally the JWT should contain user_type
-            user_type = 'employer'  # Default fallback for now
+        # CRITICAL FIX: Handle cases where user_type might be missing
+        if not user_type or user_type == 'unknown':
+            print(f"⚠️ Warning: user_type missing for user {user_id}, attempting to determine from context")
+            
+            # Try to determine user type from existing applications
+            try:
+                from .models import Application
+                # Check if user has any applications as an employer
+                employer_apps = Application.objects.filter(employer_id=user_id).exists()
+                # Check if user has any applications as an applicant
+                applicant_apps = Application.objects.filter(applicant_id=user_id).exists()
+                
+                if employer_apps and not applicant_apps:
+                    user_type = 'employer'
+                    print(f"✅ Determined user_type: {user_type} (from existing applications)")
+                elif applicant_apps and not employer_apps:
+                    user_type = 'job_seeker'
+                    print(f"✅ Determined user_type: {user_type} (from existing applications)")
+                elif employer_apps and applicant_apps:
+                    # User has both types, default to job_seeker for safety
+                    user_type = 'job_seeker'
+                    print(f"⚠️ User has both types, defaulting to: {user_type}")
+                else:
+                    # No applications found, try to get from user service
+                    user_type = 'job_seeker'  # Default fallback
+                    print(f"⚠️ No applications found, using default user_type: {user_type}")
+                    
+            except Exception as e:
+                print(f"⚠️ Error determining user_type from applications: {e}")
+                user_type = 'job_seeker'  # Safe default
+        
+        if not user_id:
+            return Response({
+                'error': 'User ID not available in authentication',
+                'details': 'Please re-authenticate to get proper user ID'
+            }, status=status.HTTP_400_BAD_REQUEST)
         
         print(f"🔍 Application list request - User ID: {user_id}, User Type: {user_type}")
         
@@ -112,6 +142,14 @@ def application_create(request):
                 'details': {'job_id': request.data.get('job_id'), 'employer_id': request.data.get('employer_id')}
             }, status=status.HTTP_400_BAD_REQUEST)
         
+        # SECURITY FIX: Validate that the authenticated user is NOT the employer (they can't apply to their own jobs)
+        if user_id == employer_id:
+            return Response({
+                'success': False,
+                'error': 'You cannot apply for your own job posting',
+                'details': {'user_id': user_id, 'employer_id': employer_id}
+            }, status=status.HTTP_403_FORBIDDEN)
+        
         # Check if user has already applied for this job
         if Application.objects.filter(job_id=job_id, applicant_id=user_id, is_active=True).exists():
             return Response({
@@ -162,10 +200,24 @@ def application_create(request):
         import traceback
         print(f"💥 Traceback: {traceback.format_exc()}")
         
+        # IMPROVED ERROR HANDLING: Provide more specific error messages
+        error_message = 'Server error occurred while creating application'
+        if 'database' in str(e).lower():
+            error_message = 'Database error occurred'
+        elif 'validation' in str(e).lower():
+            error_message = 'Data validation error occurred'
+        elif 'permission' in str(e).lower():
+            error_message = 'Permission denied'
+        
         return Response({
             'success': False,
-            'error': f'Server error occurred: {str(e)}',
-            'details': {'error_type': str(type(e))}
+            'error': error_message,
+            'details': {
+                'error_type': str(type(e)),
+                'error_message': str(e),
+                'user_id': user_id,
+                'request_data': request.data
+            }
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 

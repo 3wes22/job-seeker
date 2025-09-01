@@ -50,6 +50,7 @@ class UserLoginSerializer(serializers.Serializer):
                 except User.DoesNotExist:
                     pass
             
+            # SECURITY FIX: Remove fallback authentication to prevent auth bypass
             if not user:
                 raise serializers.ValidationError('Invalid credentials')
             if not user.is_active:

@@ -100,7 +100,7 @@ class Company(models.Model):
     # META CONFIGURATION - Django model settings
     # ========================================================================
     class Meta:
-        db_table = 'companies'
+        db_table = 'companies'  # FORCE OVERRIDE
         verbose_name = 'Company'
         verbose_name_plural = 'Companies'
         ordering = ['-created_at']
@@ -132,6 +132,252 @@ class Company(models.Model):
         RETURNS: Integer count of all job postings
         """
         return self.jobs.count()
+
+# =============================================================================
+# JOB CATEGORY MODEL - HIERARCHICAL JOB CLASSIFICATION
+# =============================================================================
+# This model provides a flexible, hierarchical structure for categorizing jobs.
+# Categories can have parent categories, allowing for nested classifications
+# like "Technology > Software Development > Frontend Development".
+# =============================================================================
+
+# class JobCategory(models.Model):
+    """
+    Job Category Model - Hierarchical job classification system
+    
+    PURPOSE: Organizes jobs into logical categories for search and filtering
+    FEATURES: Self-referencing parent-child relationships for nested categories
+    
+    EXAMPLE HIERARCHY:
+    - Technology
+      - Software Development
+        - Frontend Development
+        - Backend Development
+      - Data Science
+        - Machine Learning
+        - Data Analysis
+    """
+    
+    # ========================================================================
+    # CORE CATEGORY FIELDS - Category identification and structure
+    # ========================================================================
+    
+    # Category Information
+    name = models.CharField(
+        max_length=100,
+        help_text="Category name (e.g., 'Software Development')"
+    )
+    
+    description = models.TextField(
+        blank=True,
+        help_text="Detailed description of what this category encompasses"
+    )
+    
+    # Hierarchical Structure
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name='children',
+        help_text="Parent category for nested hierarchies (null for top-level)"
+    )
+    
+    # Category Metadata
+    icon = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Icon identifier for UI display (e.g., 'code', 'database')"
+    )
+    
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Whether this category is active and visible"
+    )
+    
+    # ========================================================================
+    # TIMESTAMP FIELDS - Audit trail
+    # ========================================================================
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # ========================================================================
+    # META CONFIGURATION
+    # ========================================================================
+    class Meta:
+        db_table = 'job_categories'
+        verbose_name = 'Job Category'
+        verbose_name_plural = 'Job Categories'
+        ordering = ['name']
+        unique_together = ['name', 'parent']  # Prevent duplicate names under same parent
+
+    # ========================================================================
+    # STRING REPRESENTATION
+    # ========================================================================
+    def __str__(self):
+        if self.parent:
+            return f"{self.parent.name} > {self.name}"
+        return self.name
+
+    # ========================================================================
+    # BUSINESS LOGIC METHODS - Category-specific operations
+    # ========================================================================
+    
+    def get_full_path(self):
+        """
+        Returns the complete category path from root to current category
+        
+        USAGE: path = category.get_full_path() # show breadcrumb navigation
+        RETURNS: String with full category path (e.g., "Technology > Software Development")
+        """
+        path = [self.name]
+        current = self.parent
+        
+        while current:
+            path.append(current.name)
+            current = current.parent
+        
+        return ' > '.join(reversed(path))
+
+    def get_jobs_count(self):
+        """
+        Returns the number of jobs in this category (including subcategories)
+        
+        USAGE: count = category.get_jobs_count() # show category statistics
+        RETURNS: Integer count of jobs in this category and all subcategories
+        """
+        # Count jobs directly in this category
+        direct_count = self.jobs.count()
+        
+        # Count jobs in all subcategories recursively
+        subcategory_count = sum(child.get_jobs_count() for child in self.children.all())
+        
+        return direct_count + subcategory_count
+
+    def get_all_children(self):
+        """
+        Returns all descendant categories (children, grandchildren, etc.)
+        
+        USAGE: all_children = category.get_all_children() # for category management
+        RETURNS: QuerySet of all descendant categories
+        """
+        children = list(self.children.all())
+        for child in children:
+            children.extend(child.get_all_children())
+        return children
+
+# =============================================================================
+# JOB SKILL MODEL - SKILLS REQUIRED FOR JOBS
+# =============================================================================
+# This model represents individual skills that can be associated with jobs.
+# Skills can be marked as required or optional, and can have proficiency levels.
+# =============================================================================
+
+# class JobSkill(models.Model):
+    """
+    Job Skill Model - Individual skills required for job positions
+    
+    PURPOSE: Defines specific skills that can be associated with jobs
+    FEATURES: Skill categorization, proficiency levels, and requirement status
+    
+    EXAMPLES: Python, JavaScript, Project Management, Communication
+    """
+    
+    # ========================================================================
+    # SKILL LEVEL CHOICES - Proficiency level classifications
+    # ========================================================================
+    SKILL_LEVEL_CHOICES = [
+        ('beginner', 'Beginner'),
+        ('intermediate', 'Intermediate'),
+        ('advanced', 'Advanced'),
+        ('expert', 'Expert'),
+    ]
+    
+    # ========================================================================
+    # CORE SKILL FIELDS - Skill identification and classification
+    # ========================================================================
+    
+    # Skill Information
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        help_text="Skill name (e.g., 'Python', 'Project Management')"
+    )
+    
+    description = models.TextField(
+        blank=True,
+        help_text="Detailed description of the skill and its applications"
+    )
+    
+    # Skill Classification
+    category = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Skill category (e.g., 'Programming', 'Soft Skills')"
+    )
+    
+    skill_level = models.CharField(
+        max_length=20,
+        choices=SKILL_LEVEL_CHOICES,
+        blank=True,
+        help_text="Default proficiency level for this skill"
+    )
+    
+    # Skill Metadata
+    icon = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Icon identifier for UI display"
+    )
+    
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Whether this skill is active and available"
+    )
+    
+    # ========================================================================
+    # TIMESTAMP FIELDS - Audit trail
+    # ========================================================================
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # ========================================================================
+    # META CONFIGURATION
+    # ========================================================================
+    class Meta:
+        db_table = 'job_skills'
+        verbose_name = 'Job Skill'
+        verbose_name_plural = 'Job Skills'
+        ordering = ['name']
+
+    # ========================================================================
+    # STRING REPRESENTATION
+    # ========================================================================
+    def __str__(self):
+        return self.name
+
+    # ========================================================================
+    # BUSINESS LOGIC METHODS - Skill-specific operations
+    # ========================================================================
+    
+    def get_jobs_count(self):
+        """
+        Returns the number of jobs that require this skill
+        
+        USAGE: count = skill.get_jobs_count() # show skill demand
+        RETURNS: Integer count of jobs requiring this skill
+        """
+        return self.job_skills.count()
+
+    def get_related_skills(self):
+        """
+        Returns skills that are commonly used together with this skill
+        
+        USAGE: related = skill.get_related_skills() # suggest additional skills
+        RETURNS: QuerySet of commonly co-occurring skills
+        """
+        # This could be enhanced with machine learning recommendations
+        return JobSkill.objects.filter(category=self.category).exclude(id=self.id)[:5]
 
 # =============================================================================
 # JOB MODEL - CORE JOB POSTING ENTITY
@@ -241,15 +487,16 @@ class Job(models.Model):
         help_text="Whether the job allows remote work"
     )
     
-    remote_type = models.CharField(
-        max_length=20,
-        choices=[
-            ('on_site', 'On Site'),
-            ('remote', 'Remote'),
-        ],
-        default='on_site',
-        help_text="Type of work arrangement"
-    )
+    # remote_type = models.CharField(
+    #     max_length=20,
+    #     choices=[
+    #         ('on_site', 'On Site'),
+    #         ('remote', 'Remote'),
+    #         ('hybrid', 'Hybrid'),
+    #     ],
+    #     default='on_site',
+    #     help_text="Type of work arrangement"
+    # )
     
     # Salary Information
     salary_min = models.DecimalField(

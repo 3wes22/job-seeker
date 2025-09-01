@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 ]
 
 # Custom user model to match user service
-AUTH_USER_MODEL = 'auth.User'  # Use Django's default User model for now
+# AUTH_USER_MODEL = 'auth.User'  # REMOVED: This was causing the auth_user table error
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -62,8 +62,8 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.core.context_processors.debug',
+                'django.core.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -74,16 +74,26 @@ TEMPLATES = [
 WSGI_APPLICATION = 'job_service.wsgi.application'
 
 # Database - Using PostgreSQL for microservice
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='job_db'),
-        'USER': config('DB_USER', default='mohamed3wes'),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
+# Support both DATABASE_URL (for Docker) and individual settings (for local dev)
+DATABASE_URL = config('DATABASE_URL', default=None)
+
+if DATABASE_URL:
+    # Use DATABASE_URL when available (Docker environment)
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
     }
-}
+else:
+    # Fallback to individual settings for local development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME', default='job_db'),
+            'USER': config('DB_USER', default='mohamed3wes'),
+            'PASSWORD': config('DB_PASSWORD', default=''),
+            'HOST': config('DB_HOST', default='localhost'),
+            'PORT': config('DB_PORT', default='5432'),
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -101,16 +111,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Rest Framework Configuration
+# Use custom JWT authentication that doesn't require local user database
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'jobs.authentication.JWTAuthentication',  # Temporarily disabled
+        'jobs.authentication.JobServiceJWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # Temporarily allow all requests
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
+    'PAGE_SIZE': 20
 }
 
 # JWT Configuration

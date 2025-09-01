@@ -14,6 +14,63 @@ from .serializers import (
 
 User = get_user_model()
 
+def create_custom_tokens(user):
+    """Create JWT tokens with custom claims including user_type"""
+    print(f"🔍 DEBUG: Creating tokens for user {user.id}")
+    print(f"🔍 DEBUG: User type: {getattr(user, 'user_type', 'NOT_FOUND')}")
+    print(f"🔍 DEBUG: User fields: {[f.name for f in user._meta.fields]}")
+    print(f"🔍 DEBUG: User data: id={user.id}, username={user.username}, email={user.email}")
+    
+    refresh = RefreshToken.for_user(user)
+    
+    # CRITICAL FIX: Use standard JWT field names for compatibility
+    # Add custom claims to access token
+    refresh.access_token['user_id'] = user.id
+    refresh.access_token['username'] = user.username
+    refresh.access_token['email'] = user.email
+    
+    # CRITICAL FIX: Ensure user_type is properly set
+    user_type = getattr(user, 'user_type', None)
+    if user_type:
+        refresh.access_token['user_type'] = user_type
+        print(f"✅ DEBUG: Added user_type to token: {user_type}")
+    else:
+        print(f"❌ DEBUG: user_type not found on user object")
+        # Try to get from database
+        try:
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            db_user = User.objects.get(id=user.id)
+            user_type = db_user.user_type
+            refresh.access_token['user_type'] = user_type
+            print(f"✅ DEBUG: Retrieved user_type from database: {user_type}")
+        except Exception as e:
+            print(f"❌ DEBUG: Failed to get user_type from database: {e}")
+            # Set a default value
+            refresh.access_token['user_type'] = 'unknown'
+            print(f"⚠️ DEBUG: Set default user_type: unknown")
+    
+    # CRITICAL FIX: Also add standard JWT fields for compatibility
+    refresh.access_token['sub'] = str(user.id)  # Standard JWT subject field
+    refresh.access_token['name'] = user.username  # Standard JWT name field
+    
+    # Add user_id to refresh token payload for refresh endpoint
+    refresh['user_id'] = user.id
+    refresh['sub'] = str(user.id)  # Standard JWT subject field
+    
+    # Ensure tokens use the configured lifetime
+    access_token = refresh.access_token
+    access_token.set_exp(lifetime=api_settings.ACCESS_TOKEN_LIFETIME)
+    
+    # CRITICAL FIX: Remove the problematic dict() conversion
+    # The token objects can't be converted to dict directly
+    print(f"🔍 DEBUG: Token created successfully for user {user.id}")
+    
+    return {
+        'access': str(access_token),
+        'refresh': str(refresh),
+    }
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register(request):
@@ -23,19 +80,12 @@ def register(request):
         user = serializer.save()
         
         # Generate JWT tokens using proper settings
-        refresh = RefreshToken.for_user(user)
-        
-        # Ensure tokens use the configured lifetime
-        access_token = refresh.access_token
-        access_token.set_exp(lifetime=api_settings.ACCESS_TOKEN_LIFETIME)
+        tokens = create_custom_tokens(user)
         
         return Response({
             'message': 'User registered successfully',
             'user': UserProfileSerializer(user).data,
-            'tokens': {
-                'access': str(access_token),
-                'refresh': str(refresh),
-            }
+            'tokens': tokens
         }, status=status.HTTP_201_CREATED)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -49,19 +99,12 @@ def login(request):
         user = serializer.validated_data['user']
         
         # Generate JWT tokens using proper settings
-        refresh = RefreshToken.for_user(user)
-        
-        # Ensure tokens use the configured lifetime
-        access_token = refresh.access_token
-        access_token.set_exp(lifetime=api_settings.ACCESS_TOKEN_LIFETIME)
+        tokens = create_custom_tokens(user)
         
         return Response({
             'message': 'Login successful',
             'user': UserProfileSerializer(user).data,
-            'tokens': {
-                'access': str(access_token),
-                'refresh': str(refresh),
-            }
+            'tokens': tokens
         }, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -127,16 +170,41 @@ def refresh_token(request):
         # Verify and decode the refresh token
         token = RefreshToken(refresh_token)
         
-        # Generate new access token with proper lifetime
-        new_access_token = token.access_token
-        new_access_token.set_exp(lifetime=api_settings.ACCESS_TOKEN_LIFETIME)
+        # CRITICAL FIX: Access custom claims safely from the token object
+        # The token object itself has the custom claims as attributes
+        user_id = getattr(token, 'user_id', None)
+        if not user_id:
+            # Fallback: try to get from payload
+            try:
+                user_id = token.payload.get('user_id')
+            except (KeyError, AttributeError):
+                pass
+        
+        if not user_id:
+            return Response(
+                {'error': 'Invalid refresh token - missing user information'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        # Get the user to recreate tokens with custom claims
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response(
+                {'error': 'User not found'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        # Generate new tokens with custom claims
+        new_tokens = create_custom_tokens(user)
         
         return Response({
-            'access': str(new_access_token),
-            'refresh': refresh_token,  # Return the same refresh token
+            'access': new_tokens['access'],
+            'refresh': new_tokens['refresh'],  # Return new refresh token
         }, status=status.HTTP_200_OK)
         
     except Exception as e:
+        print(f"❌ Token refresh error: {str(e)}")
         return Response(
             {'error': 'Invalid refresh token'}, 
             status=status.HTTP_401_UNAUTHORIZED

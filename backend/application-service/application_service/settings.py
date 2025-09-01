@@ -101,15 +101,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'application_service.wsgi.application'
 
 # Database - Using PostgreSQL for microservice
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='applications_db'),
-        'USER': config('DB_USER', default='mohamed3wes'),  # Changed to system username for macOS
-        'PASSWORD': config('DB_PASSWORD', default=''),  # No password for local development
-        'HOST': config('DB_HOST', default='localhost'),  # Changed from postgres-applications to localhost
-        'PORT': config('DB_PORT', default='5432'),
-    }
+    'default': dj_database_url.parse(
+        config('DATABASE_URL', default='postgresql://postgres:postgres123@postgres-applications:5432/applications_db')
+    )
 }
 
 # Password validation

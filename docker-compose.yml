@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
     ports:
-      - "5432:5432"
+      - "15432:5432"
     volumes:
       - postgres_users_data:/var/lib/postgresql/data
     networks:
@@ -22,7 +22,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
     ports:
-      - "5433:5432"
+      - "15433:5432"
     volumes:
       - postgres_jobs_data:/var/lib/postgresql/data
     networks:
@@ -35,7 +35,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
     ports:
-      - "5434:5432"
+      - "15434:5432"
     volumes:
       - postgres_applications_data:/var/lib/postgresql/data
     networks:
@@ -48,7 +48,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
     ports:
-      - "5435:5432"
+      - "15435:5432"
     volumes:
       - postgres_search_data:/var/lib/postgresql/data
     networks:
@@ -61,7 +61,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
     ports:
-      - "5436:5432"
+      - "15436:5432"
     volumes:
       - postgres_notifications_data:/var/lib/postgresql/data
     networks:
@@ -74,7 +74,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
     ports:
-      - "5437:5432"
+      - "15437:5432"
     volumes:
       - postgres_analytics_data:/var/lib/postgresql/data
     networks:
@@ -139,7 +139,7 @@ services:
   api-gateway:
     build: ./infrastructure/docker/api-gateway
     ports:
-      - "8000:80"
+      - "8000:8000"
     depends_on:
       - user-service
       - job-service
@@ -193,45 +193,63 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres123@postgres-applications:5432/applications_db
       - USER_SERVICE_URL=http://user-service:8000
       - JOB_SERVICE_URL=http://job-service:8000
+      - JWT_SECRET_KEY=django-insecure-jwt-secret-key-shared-across-services
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_GROUP_ID=application-service-group
     depends_on:
       - postgres-applications
       - user-service
       - job-service
+      - kafka
     networks:
       - job-platform-network
 
   search-service:
     build: ./backend/search-service
+    ports:
+      - "8004:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres123@postgres-search:5432/search_db
       - USER_SERVICE_URL=http://user-service:8000
       - JOB_SERVICE_URL=http://job-service:8000
       - APPLICATION_SERVICE_URL=http://application-service:8000
+      - JWT_SECRET_KEY=django-insecure-jwt-secret-key-shared-across-services
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_GROUP_ID=search-service-group
     depends_on:
       - postgres-search
       - user-service
       - job-service
       - application-service
+      - kafka
     networks:
       - job-platform-network
 
   notification-service:
     build: ./backend/notification-service
+    ports:
+      - "8005:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres123@postgres-notifications:5432/notifications_db
       - USER_SERVICE_URL=http://user-service:8000
       - JOB_SERVICE_URL=http://job-service:8000
       - APPLICATION_SERVICE_URL=http://application-service:8000
+      - JWT_SECRET_KEY=django-insecure-jwt-secret-key-shared-across-services
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_GROUP_ID=notification-service-group
     depends_on:
       - postgres-notifications
       - user-service
       - job-service
       - application-service
+      - kafka
     networks:
       - job-platform-network
 
   analytics-service:
     build: ./backend/analytics-service
+    ports:
+      - "8006:8000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres123@postgres-analytics:5432/analytics_db
       - USER_SERVICE_URL=http://user-service:8000
@@ -239,6 +257,9 @@ services:
       - APPLICATION_SERVICE_URL=http://application-service:8000
       - SEARCH_SERVICE_URL=http://search-service:8000
       - NOTIFICATION_SERVICE_URL=http://notification-service:8000
+      - JWT_SECRET_KEY=django-insecure-jwt-secret-key-shared-across-services
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_GROUP_ID=analytics-service-group
     depends_on:
       - postgres-analytics
       - user-service
@@ -246,6 +267,7 @@ services:
       - application-service
       - search-service
       - notification-service
+      - kafka
     networks:
       - job-platform-network
 
